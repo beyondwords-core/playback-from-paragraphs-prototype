@@ -33,3 +33,12 @@ button:hover:before {
   border-bottom: 1px dashed gray;
   padding: 1rem;
 }
+
+input {
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.beyondwords-current {
+  background: rgba(254, 191, 0, 0.25);
+}
