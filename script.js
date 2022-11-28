@@ -206,9 +206,16 @@ settingsFunctions.enableClickParagraphText = (data) => {
     paragraph.onclick = () => {
       const paragraphId = paragraph.dataset.beyondwordsParagraphId;
       const timestamp = data.timestamps[paragraphId];
+      const marker = currentMarker(audioPlayer, data);
 
-      audioPlayer.currentTime = timestamp;
-      audioPlayer.play();
+      if (paragraphId === marker && audioPlayer.paused) {
+        audioPlayer.play()
+      } else if (paragraphId === marker && !audioPlayer.paused) {
+        audioPlayer.pause()
+      } else {
+        audioPlayer.currentTime = timestamp;
+        audioPlayer.play()
+      }
     };
 
     const child = paragraph.children[0];
