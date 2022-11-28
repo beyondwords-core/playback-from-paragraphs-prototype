@@ -1,6 +1,8 @@
 article {
   max-width: 30rem;
   margin: auto;
+  font-family: Arial, sans-serif;
+  line-height: 1.5rem;
 }
 
 button {

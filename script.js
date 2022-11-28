@@ -58,10 +58,6 @@ settingsFunctions.enableHighlightParagraph = (data) => {
   const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
 
   timeUpdateFunctions.highlightParagraph = (audioPlayer) => {
-    paragraphs.forEach(paragraph => {
-      paragraph.classList.remove("beyondwords-current");
-    });
-
     let marker;
     for (const [key, value] of Object.entries(data.timestamps)) {
       if (value < audioPlayer.currentTime + 0.5) {
@@ -73,8 +69,17 @@ settingsFunctions.enableHighlightParagraph = (data) => {
 
     paragraphs.forEach(paragraph => {
       const paragraphId = paragraph.getAttribute("data-beyondwords-paragraph-id");
-      if (paragraphId === marker) {
-        paragraph.classList.add("beyondwords-current");
+      const child = paragraph.children[0];
+      const hasMarker = child && child.classList.contains("beyondwords-current");
+
+      if (paragraphId === marker && !hasMarker) {
+        const markElement = document.createElement("mark");
+        markElement.classList.add("beyondwords-current");
+        moveChildren(paragraph, markElement);
+        paragraph.append(markElement);
+      } else if (paragraphId !== marker && hasMarker) {
+        moveChildren(child, paragraph);
+        child.remove();
       }
     });
   }
@@ -89,8 +94,20 @@ settingsFunctions.disableHighlightParagraph = () => {
   const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
 
   paragraphs.forEach(paragraph => {
-    paragraph.classList.remove("beyondwords-current");
+    const child = paragraph.children[0];
+    const hasMarker = child && child.classList.contains("beyondwords-current");
+
+    if (hasMarker) {
+      moveChildren(child, paragraph);
+      child.remove();
+    }
   });
+};
+
+const moveChildren = (fromNode, toNode) => {
+  while (fromNode.childNodes.length) {
+    toNode.appendChild(fromNode.firstChild);
+  }
 };
 
 main();
