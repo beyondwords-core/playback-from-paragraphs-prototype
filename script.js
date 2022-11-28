@@ -143,7 +143,7 @@ settingsFunctions.enableLeftButtonWhenHovering = (data) => {
 
           const timestamp = data.timestamps[paragraphId];
 
-          playButton.onclick = (element) => {
+          playButton.onclick = (event) => {
             audioPlayer.currentTime = timestamp;
 
             if (playButton.classList.contains("pause")) {
@@ -151,6 +151,8 @@ settingsFunctions.enableLeftButtonWhenHovering = (data) => {
             } else {
               audioPlayer.play();
             }
+
+            event.stopPropagation();
           }
         } else if (paragraph !== hoveredParagraph && hasButton) {
           paragraph.querySelector('.button-left-of-paragraph').remove();
