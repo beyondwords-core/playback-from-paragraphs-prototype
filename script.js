@@ -12,6 +12,23 @@ const main = async () => {
 
   const audioPlayer = document.getElementById("audio-player");
   audioPlayer.ontimeupdate = () => applyTimeUpdate(audioPlayer);
+
+  const container = document.getElementById("audio-player-container");
+  container.style.height = `${audioPlayer.getBoundingClientRect().height}px`;
+
+  addEventListener("scroll", fixAudioPlayerToBottom);
+  fixAudioPlayerToBottom();
+};
+
+const fixAudioPlayerToBottom = () => {
+  const audioPlayer = document.getElementById("audio-player");
+  const { y } = audioPlayer.getBoundingClientRect();
+
+  if (window.scrollY < 100) {
+    audioPlayer.parentNode.classList.remove('fix-to-bottom');
+  } else {
+    audioPlayer.parentNode.classList.add('fix-to-bottom');
+  }
 };
 
 const applySetting = (checkbox, data) => {

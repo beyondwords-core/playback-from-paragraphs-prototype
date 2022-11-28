@@ -89,3 +89,19 @@ input {
 .click-to-play:hover .click-to-play-marker {
   background: rgba(252, 219, 220, 1);
 }
+
+.fix-to-bottom {
+  position: fixed;
+  bottom: 0;
+  padding-bottom: 0.5rem;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(rgba(0, 0, 0, 0), white);
+}
+
+.fix-to-bottom audio {
+  filter: drop-shadow(0 0 0.2rem rgba(0, 0, 0, 0.5));
+}
