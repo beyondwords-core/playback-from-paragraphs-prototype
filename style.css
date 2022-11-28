@@ -1,0 +1,26 @@
+article {
+  max-width: 30rem;
+  margin: auto;
+}
+
+button {
+  display: block;
+  margin-top: 2rem;
+  cursor: pointer;
+  background: rgb(246, 246, 246);
+  border: none;
+  border-radius: 99999px;
+  width: 4.92rem;
+  height: 2.22rem;
+}
+
+button:before {
+  content: "▷";
+  color: red;
+  padding-right: 0.5rem;
+}
+
+button:hover:before {
+  content: "▶";
+  padding-right: 0.6rem;
+}
