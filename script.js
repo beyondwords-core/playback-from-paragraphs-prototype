@@ -24,7 +24,10 @@ const fixAudioPlayerToBottom = () => {
   const audioPlayer = document.getElementById("audio-player");
   const { y } = audioPlayer.getBoundingClientRect();
 
-  if (window.scrollY < 100) {
+  const isMobile = window.innerWidth < 1000;
+  const yLimit = isMobile ? 280 : 100;
+
+  if (window.scrollY < yLimit) {
     audioPlayer.parentNode.classList.remove('fix-to-bottom');
   } else {
     audioPlayer.parentNode.classList.add('fix-to-bottom');

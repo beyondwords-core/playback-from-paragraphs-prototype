@@ -73,6 +73,16 @@ mark {
   padding: 1rem;
 }
 
+
+@media only screen and (max-width: 1000px) {
+  #prototype-settings {
+    position: static;
+    border-left: 0;
+    padding: 0;
+    margin-bottom: 2rem;
+  }
+}
+
 input {
   cursor: pointer;
   margin-bottom: 1rem;
