@@ -144,7 +144,11 @@ settingsFunctions.enableLeftButtonWhenHovering = (data) => {
           const timestamp = data.timestamps[paragraphId];
 
           playButton.onclick = (event) => {
-            audioPlayer.currentTime = timestamp;
+            const marker = currentMarker(audioPlayer, data);
+
+            if (paragraphId !== marker) {
+              audioPlayer.currentTime = timestamp;
+            }
 
             if (playButton.classList.contains("pause")) {
               audioPlayer.pause();
