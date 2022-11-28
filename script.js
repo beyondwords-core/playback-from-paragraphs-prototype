@@ -54,18 +54,24 @@ settingsFunctions.disableButtonsBetweenParagraphs = () => {
   playButtons.forEach(b => b.remove());
 };
 
+const currentMarker = (audioPlayer, data) => {
+  let marker;
+  for (const [key, value] of Object.entries(data.timestamps)) {
+    if (value < audioPlayer.currentTime + 0.5) {
+      marker = key;
+    }  else {
+      break;
+    }
+  }
+
+  return marker;
+};
+
 settingsFunctions.enableHighlightParagraph = (data) => {
   const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
 
   timeUpdateFunctions.highlightParagraph = (audioPlayer) => {
-    let marker;
-    for (const [key, value] of Object.entries(data.timestamps)) {
-      if (value < audioPlayer.currentTime + 0.5) {
-        marker = key;
-      }  else {
-        break;
-      }
-    }
+    const marker = currentMarker(audioPlayer, data);
 
     paragraphs.forEach(paragraph => {
       const paragraphId = paragraph.getAttribute("data-beyondwords-paragraph-id");
@@ -116,20 +122,31 @@ settingsFunctions.enableLeftButtonWhenHovering = (data) => {
 
   paragraphs.forEach(hoveredParagraph => {
     hoveredParagraph.onmouseover = () => {
+      const marker = currentMarker(audioPlayer, data);
+
       paragraphs.forEach(paragraph => {
         const hasButton = paragraph.querySelector('.button-left-of-paragraph');
 
         if (paragraph === hoveredParagraph && !hasButton) {
           const playButton = document.createElement("button");
+          const paragraphId = paragraph.getAttribute("data-beyondwords-paragraph-id");
+
           playButton.classList.add("button-left-of-paragraph");
+          if (paragraphId === marker && !audioPlayer.paused) {
+            playButton.classList.add("pause");
+          }
           paragraph.append(playButton);
 
-          const paragraphId = paragraph.dataset.beyondwordsParagraphId;
           const timestamp = data.timestamps[paragraphId];
 
-          playButton.onclick = () => {
+          playButton.onclick = (element) => {
             audioPlayer.currentTime = timestamp;
-            audioPlayer.play();
+
+            if (playButton.classList.contains("pause")) {
+              audioPlayer.pause();
+            } else {
+              audioPlayer.play();
+            }
           }
         } else if (paragraph !== hoveredParagraph && hasButton) {
           paragraph.querySelector('.button-left-of-paragraph').remove();
@@ -137,6 +154,22 @@ settingsFunctions.enableLeftButtonWhenHovering = (data) => {
       });
     };
   });
+
+  timeUpdateFunctions.leftButton = () => {
+    const marker = currentMarker(audioPlayer, data);
+
+    paragraphs.forEach(paragraph => {
+      const playButton = paragraph.querySelector('.button-left-of-paragraph');
+      if (!playButton) { return; }
+
+      const paragraphId = paragraph.dataset.beyondwordsParagraphId;
+      if (paragraphId === marker && !audioPlayer.paused) {
+        playButton.classList.add("pause");
+      } else {
+        playButton.classList.remove("pause");
+      }
+    });
+  };
 };
 
 settingsFunctions.disableLeftButtonWhenHovering = () => {
@@ -151,6 +184,8 @@ settingsFunctions.disableLeftButtonWhenHovering = () => {
       playButton.remove();
     }
   });
+
+  delete timeUpdateFunctions.leftButton;
 };
 
 main();

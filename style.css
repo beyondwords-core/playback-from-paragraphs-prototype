@@ -50,6 +50,12 @@ p {
   margin-left: 0.12rem;
 }
 
+.button-left-of-paragraph.pause:before {
+  content: "| |";
+  font-weight: bold;
+  margin-left: 0;
+}
+
 .button-left-of-paragraph:hover {
   background: red;
 }
