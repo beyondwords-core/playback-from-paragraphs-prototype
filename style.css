@@ -9,6 +9,10 @@ p {
   position: relative;
 }
 
+mark {
+  background: none;
+}
+
 .button-between-paragraphs {
   display: block;
   margin-top: 2rem;
@@ -76,4 +80,9 @@ input {
 
 .beyondwords-current {
   background: rgba(254, 191, 0, 0.25);
+}
+
+.click-to-play:hover {
+  background: rgba(252, 219, 220, 1);
+  cursor: pointer;
 }

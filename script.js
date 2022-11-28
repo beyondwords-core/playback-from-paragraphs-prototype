@@ -188,4 +188,42 @@ settingsFunctions.disableLeftButtonWhenHovering = () => {
   delete timeUpdateFunctions.leftButton;
 };
 
+settingsFunctions.enableClickParagraphText = (data) => {
+  const audioPlayer = document.getElementById("audio-player");
+  const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
+
+  paragraphs.forEach(paragraph => {
+    paragraph.onclick = () => {
+      const paragraphId = paragraph.dataset.beyondwordsParagraphId;
+      const timestamp = data.timestamps[paragraphId];
+
+      audioPlayer.currentTime = timestamp;
+      audioPlayer.play();
+    };
+
+    const child = paragraph.children[0];
+    const hasOtherMarker = child && child.classList.contains("beyondwords-current");
+    const parentNode = hasOtherMarker ? child : paragraph;
+
+    const markElement = document.createElement("mark");
+    markElement.classList.add("click-to-play");
+    moveChildren(parentNode, markElement);
+    parentNode.append(markElement);
+  });
+};
+
+settingsFunctions.disableClickParagraphText = () => {
+  const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
+
+  paragraphs.forEach(paragraph => {
+    paragraph.onclick = () => {};
+
+    const markers = document.querySelectorAll('.click-to-play');
+    markers.forEach(marker => {
+      moveChildren(marker, marker.parentNode);
+      marker.remove();
+    });
+  });
+};
+
 main();
