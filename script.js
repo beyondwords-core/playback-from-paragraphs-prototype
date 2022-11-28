@@ -218,12 +218,14 @@ settingsFunctions.enableClickParagraphText = (data) => {
       }
     };
 
+    paragraph.classList.add("click-to-play");
+
     const child = paragraph.children[0];
     const hasOtherMarker = child && child.classList.contains("beyondwords-current");
     const parentNode = hasOtherMarker ? child : paragraph;
 
     const markElement = document.createElement("mark");
-    markElement.classList.add("click-to-play");
+    markElement.classList.add("click-to-play-marker");
     moveChildren(parentNode, markElement);
     parentNode.append(markElement);
   });
@@ -234,8 +236,9 @@ settingsFunctions.disableClickParagraphText = () => {
 
   paragraphs.forEach(paragraph => {
     paragraph.onclick = () => {};
+    paragraph.classList.remove("click-to-play");
 
-    const markers = document.querySelectorAll('.click-to-play');
+    const markers = document.querySelectorAll(".click-to-play-marker");
     markers.forEach(marker => {
       moveChildren(marker, marker.parentNode);
       marker.remove();

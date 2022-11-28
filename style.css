@@ -83,6 +83,9 @@ input {
 }
 
 .click-to-play:hover {
-  background: rgba(252, 219, 220, 1);
   cursor: pointer;
+}
+
+.click-to-play:hover .click-to-play-marker {
+  background: rgba(252, 219, 220, 1);
 }
