@@ -11,7 +11,10 @@ const main = async () => {
     const playButton = document.createElement("button");
     paragraph.parentNode.insertBefore(playButton, paragraph);
 
-    playButton.innerText = "Play from here";
+    const minutes = String(Math.floor(timestamp / 60)).padStart(2, "0");
+    const seconds = String(Math.floor(timestamp % 60)).padStart(2, "0");
+
+    playButton.innerText = `${minutes}:${seconds}`;
     playButton.onclick = () => {
       audioPlayer.currentTime = timestamp;
       audioPlayer.play();
