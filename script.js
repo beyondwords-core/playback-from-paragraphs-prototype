@@ -110,4 +110,47 @@ const moveChildren = (fromNode, toNode) => {
   }
 };
 
+settingsFunctions.enableLeftButtonWhenHovering = (data) => {
+  const audioPlayer = document.getElementById("audio-player");
+  const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
+
+  paragraphs.forEach(hoveredParagraph => {
+    hoveredParagraph.onmouseover = () => {
+      paragraphs.forEach(paragraph => {
+        const hasButton = paragraph.querySelector('.button-left-of-paragraph');
+
+        if (paragraph === hoveredParagraph && !hasButton) {
+          const playButton = document.createElement("button");
+          playButton.classList.add("button-left-of-paragraph");
+          paragraph.append(playButton);
+
+          const paragraphId = paragraph.dataset.beyondwordsParagraphId;
+          const timestamp = data.timestamps[paragraphId];
+
+          playButton.onclick = () => {
+            audioPlayer.currentTime = timestamp;
+            audioPlayer.play();
+          }
+        } else if (paragraph !== hoveredParagraph && hasButton) {
+          paragraph.querySelector('.button-left-of-paragraph').remove();
+        }
+      });
+    };
+  });
+};
+
+settingsFunctions.disableLeftButtonWhenHovering = () => {
+  const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
+
+  paragraphs.forEach(paragraph => {
+    paragraph.onmouseover = () => {};
+
+    const playButton = paragraph.querySelector('.button-left-of-paragraph');
+
+    if (playButton) {
+      playButton.remove();
+    }
+  });
+};
+
 main();

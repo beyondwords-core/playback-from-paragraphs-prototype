@@ -5,7 +5,11 @@ article {
   line-height: 1.5rem;
 }
 
-button {
+p {
+  position: relative;
+}
+
+.button-between-paragraphs {
   display: block;
   margin-top: 2rem;
   cursor: pointer;
@@ -16,15 +20,38 @@ button {
   height: 2.22rem;
 }
 
-button:before {
+.button-between-paragraphs:before {
   content: "▷";
   color: red;
   padding-right: 0.5rem;
 }
 
-button:hover:before {
+.button-between-paragraphs:hover:before {
   content: "▶";
   padding-right: 0.6rem;
+}
+
+.button-left-of-paragraph {
+  background: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  background: #323232;
+  cursor: pointer;
+  border: none;
+  position: absolute;
+  top: -0.25rem;
+  left: -3rem;
+}
+
+.button-left-of-paragraph:before {
+  content: "▶";
+  color: white;
+  margin-left: 0.12rem;
+}
+
+.button-left-of-paragraph:hover {
+  background: red;
 }
 
 #prototype-settings {
