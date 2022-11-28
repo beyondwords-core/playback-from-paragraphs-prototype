@@ -44,7 +44,7 @@ mark {
   cursor: pointer;
   border: none;
   position: absolute;
-  top: -0.25rem;
+  top: 0;
   left: -3rem;
 }
 

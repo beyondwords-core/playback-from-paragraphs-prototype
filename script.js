@@ -131,6 +131,10 @@ settingsFunctions.enableLeftButtonWhenHovering = (data) => {
           const playButton = document.createElement("button");
           const paragraphId = paragraph.getAttribute("data-beyondwords-paragraph-id");
 
+          const { height } = paragraph.getBoundingClientRect();
+          const marginTop = height / 2 - 16;
+          playButton.style.marginTop = `${marginTop}px`;
+
           playButton.classList.add("button-left-of-paragraph");
           if (paragraphId === marker && !audioPlayer.paused) {
             playButton.classList.add("pause");
