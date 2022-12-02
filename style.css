@@ -96,7 +96,11 @@ input {
   cursor: pointer;
 }
 
-.click-to-play:hover .click-to-play-marker {
+h1:hover .hover-marker {
+  background: rgba(252, 219, 220, 1);
+}
+
+p:hover .hover-marker {
   background: rgba(252, 219, 220, 1);
 }
 

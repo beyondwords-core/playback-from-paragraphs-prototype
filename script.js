@@ -89,7 +89,7 @@ const currentMarker = (audioPlayer, data) => {
   return marker;
 };
 
-settingsFunctions.enableHighlightParagraph = (data) => {
+settingsFunctions.enableHighlightCurrentParagraph = (data) => {
   const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
 
   timeUpdateFunctions.highlightParagraph = (audioPlayer) => {
@@ -116,7 +116,7 @@ settingsFunctions.enableHighlightParagraph = (data) => {
   timeUpdateFunctions.highlightParagraph(audioPlayer);
 };
 
-settingsFunctions.disableHighlightParagraph = () => {
+settingsFunctions.disableHighlightCurrentParagraph = () => {
   delete timeUpdateFunctions.highlightParagraph;
 
   const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
@@ -136,6 +136,33 @@ const moveChildren = (fromNode, toNode) => {
   while (fromNode.childNodes.length) {
     toNode.appendChild(fromNode.firstChild);
   }
+};
+
+settingsFunctions.enableHighlightHoveredParagraph = () => {
+  const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
+
+  paragraphs.forEach(paragraph => {
+    const child = paragraph.children[0];
+    const hasOtherMarker = child && child.classList.contains("beyondwords-current");
+    const parentNode = hasOtherMarker ? child : paragraph;
+
+    const markElement = document.createElement("mark");
+    markElement.classList.add("hover-marker");
+    moveChildren(parentNode, markElement);
+    parentNode.append(markElement);
+  });
+};
+
+settingsFunctions.disableHighlightHoveredParagraph = () => {
+  const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
+
+  paragraphs.forEach(paragraph => {
+    const markers = document.querySelectorAll(".hover-marker");
+    markers.forEach(marker => {
+      moveChildren(marker, marker.parentNode);
+      marker.remove();
+    });
+  });
 };
 
 settingsFunctions.enableLeftButtonWhenHovering = (data) => {
@@ -241,15 +268,6 @@ settingsFunctions.enableClickParagraphText = (data) => {
     };
 
     paragraph.classList.add("click-to-play");
-
-    const child = paragraph.children[0];
-    const hasOtherMarker = child && child.classList.contains("beyondwords-current");
-    const parentNode = hasOtherMarker ? child : paragraph;
-
-    const markElement = document.createElement("mark");
-    markElement.classList.add("click-to-play-marker");
-    moveChildren(parentNode, markElement);
-    parentNode.append(markElement);
   });
 };
 
@@ -259,12 +277,6 @@ settingsFunctions.disableClickParagraphText = () => {
   paragraphs.forEach(paragraph => {
     paragraph.onclick = () => {};
     paragraph.classList.remove("click-to-play");
-
-    const markers = document.querySelectorAll(".click-to-play-marker");
-    markers.forEach(marker => {
-      moveChildren(marker, marker.parentNode);
-      marker.remove();
-    });
   });
 };
 
