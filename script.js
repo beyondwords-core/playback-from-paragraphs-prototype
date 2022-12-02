@@ -48,11 +48,11 @@ const applyTimeUpdate = (audioPlayer) => {
 
 settingsFunctions.enableButtonsBetweenParagraphs = async (data) => {
   const audioPlayer = document.getElementById("audio-player");
-  const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
+  const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
 
   paragraphs.forEach(paragraph => {
-    const paragraphId = paragraph.dataset.beyondwordsParagraphId;
-    const timestamp = data.timestamps[paragraphId];
+    const marker = paragraph.dataset.beyondwordsMarker;
+    const timestamp = data.timestamps[marker];
 
     const playButton = document.createElement("button");
     playButton.classList.add("button-between-paragraphs");
@@ -88,22 +88,22 @@ const currentMarker = (audioPlayer, data) => {
 };
 
 settingsFunctions.enableHighlightParagraph = (data) => {
-  const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
+  const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
 
   timeUpdateFunctions.highlightParagraph = (audioPlayer) => {
-    const marker = currentMarker(audioPlayer, data);
+    const current = currentMarker(audioPlayer, data);
 
     paragraphs.forEach(paragraph => {
-      const paragraphId = paragraph.getAttribute("data-beyondwords-paragraph-id");
+      const marker = paragraph.getAttribute("data-beyondwords-marker");
       const child = paragraph.children[0];
       const hasMarker = child && child.classList.contains("beyondwords-current");
 
-      if (paragraphId === marker && !hasMarker) {
+      if (marker === current && !hasMarker) {
         const markElement = document.createElement("mark");
         markElement.classList.add("beyondwords-current");
         moveChildren(paragraph, markElement);
         paragraph.append(markElement);
-      } else if (paragraphId !== marker && hasMarker) {
+      } else if (marker !== current && hasMarker) {
         moveChildren(child, paragraph);
         child.remove();
       }
@@ -117,7 +117,7 @@ settingsFunctions.enableHighlightParagraph = (data) => {
 settingsFunctions.disableHighlightParagraph = () => {
   delete timeUpdateFunctions.highlightParagraph;
 
-  const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
+  const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
 
   paragraphs.forEach(paragraph => {
     const child = paragraph.children[0];
@@ -138,35 +138,35 @@ const moveChildren = (fromNode, toNode) => {
 
 settingsFunctions.enableLeftButtonWhenHovering = (data) => {
   const audioPlayer = document.getElementById("audio-player");
-  const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
+  const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
 
   paragraphs.forEach(hoveredParagraph => {
     hoveredParagraph.onmouseover = () => {
-      const marker = currentMarker(audioPlayer, data);
+      const current = currentMarker(audioPlayer, data);
 
       paragraphs.forEach(paragraph => {
         const hasButton = paragraph.querySelector('.button-left-of-paragraph');
 
         if (paragraph === hoveredParagraph && !hasButton) {
           const playButton = document.createElement("button");
-          const paragraphId = paragraph.getAttribute("data-beyondwords-paragraph-id");
+          const marker = paragraph.getAttribute("data-beyondwords-marker");
 
           const { height } = paragraph.getBoundingClientRect();
           const marginTop = height / 2 - 16;
           playButton.style.marginTop = `${marginTop}px`;
 
           playButton.classList.add("button-left-of-paragraph");
-          if (paragraphId === marker && !audioPlayer.paused) {
+          if (marker === current && !audioPlayer.paused) {
             playButton.classList.add("pause");
           }
           paragraph.append(playButton);
 
-          const timestamp = data.timestamps[paragraphId];
+          const timestamp = data.timestamps[marker];
 
           playButton.onclick = (event) => {
-            const marker = currentMarker(audioPlayer, data);
+            const current = currentMarker(audioPlayer, data);
 
-            if (paragraphId !== marker) {
+            if (marker !== current) {
               audioPlayer.currentTime = timestamp;
             }
 
@@ -186,14 +186,14 @@ settingsFunctions.enableLeftButtonWhenHovering = (data) => {
   });
 
   timeUpdateFunctions.leftButton = () => {
-    const marker = currentMarker(audioPlayer, data);
+    const current = currentMarker(audioPlayer, data);
 
     paragraphs.forEach(paragraph => {
       const playButton = paragraph.querySelector('.button-left-of-paragraph');
       if (!playButton) { return; }
 
-      const paragraphId = paragraph.dataset.beyondwordsParagraphId;
-      if (paragraphId === marker && !audioPlayer.paused) {
+      const marker = paragraph.dataset.beyondwordsMarker;
+      if (marker === current && !audioPlayer.paused) {
         playButton.classList.add("pause");
       } else {
         playButton.classList.remove("pause");
@@ -203,7 +203,7 @@ settingsFunctions.enableLeftButtonWhenHovering = (data) => {
 };
 
 settingsFunctions.disableLeftButtonWhenHovering = () => {
-  const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
+  const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
 
   paragraphs.forEach(paragraph => {
     paragraph.onmouseover = () => {};
@@ -220,17 +220,17 @@ settingsFunctions.disableLeftButtonWhenHovering = () => {
 
 settingsFunctions.enableClickParagraphText = (data) => {
   const audioPlayer = document.getElementById("audio-player");
-  const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
+  const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
 
   paragraphs.forEach(paragraph => {
     paragraph.onclick = () => {
-      const paragraphId = paragraph.dataset.beyondwordsParagraphId;
-      const timestamp = data.timestamps[paragraphId];
-      const marker = currentMarker(audioPlayer, data);
+      const marker = paragraph.dataset.beyondwordsMarker;
+      const timestamp = data.timestamps[marker];
+      const current = currentMarker(audioPlayer, data);
 
-      if (paragraphId === marker && audioPlayer.paused) {
+      if (marker === current && audioPlayer.paused) {
         audioPlayer.play()
-      } else if (paragraphId === marker && !audioPlayer.paused) {
+      } else if (marker === current && !audioPlayer.paused) {
         audioPlayer.pause()
       } else {
         audioPlayer.currentTime = timestamp;
@@ -252,7 +252,7 @@ settingsFunctions.enableClickParagraphText = (data) => {
 };
 
 settingsFunctions.disableClickParagraphText = () => {
-  const paragraphs = document.querySelectorAll("[data-beyondwords-paragraph-id]");
+  const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
 
   paragraphs.forEach(paragraph => {
     paragraph.onclick = () => {};
