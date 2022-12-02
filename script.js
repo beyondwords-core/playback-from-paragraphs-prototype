@@ -50,7 +50,9 @@ settingsFunctions.enableButtonsBetweenParagraphs = async (data) => {
   const audioPlayer = document.getElementById("audio-player");
   const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
 
-  paragraphs.forEach(paragraph => {
+  paragraphs.forEach((paragraph, i) => {
+    if (i === 0) { return; }
+
     const marker = paragraph.dataset.beyondwordsMarker;
     const timestamp = data.timestamps[marker];
 
