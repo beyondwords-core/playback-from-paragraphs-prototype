@@ -51,6 +51,8 @@ const setupVisualiser = (audioPlayer, data) => {
   const canvasContext = canvas.getContext("2d");
 
   const audioContext = new AudioContext();
+  if (audioContext.state === "suspended") { return; }
+
   const source = audioContext.createMediaElementSource(audioPlayer);
   const analyser = audioContext.createAnalyser();
 
@@ -375,8 +377,11 @@ settingsFunctions.enableWaveformVisualiser = ({ visualiser }) => {
 };
 
 settingsFunctions.disableWaveformVisualiser = ({ visualiser }) => {
-  visualiser.canvas.style.display = "none";
   document.getElementById("waveform-settings").style.display = "none";
+
+  if (visualiser) {
+    visualiser.canvas.style.display = "none";
+  }
 };
 
 main();
