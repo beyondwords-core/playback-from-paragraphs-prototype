@@ -12,7 +12,16 @@ const main = async () => {
 
   checkboxes.forEach(c => c.checked && applySetting(c, data));
   checkboxes.forEach(c => c.onchange = () => applySetting(c, data));
+
   audioPlayer.ontimeupdate = () => applyTimeUpdate(audioPlayer);
+
+  document.getElementById("number-of-bars").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
+  document.getElementById("relative-gap-width").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
+  document.getElementById("max-frequency").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
+  document.getElementById("time-smoothing").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
+  document.getElementById("bar-color-1").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
+  document.getElementById("bar-color-2").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
+  document.getElementById("bar-opacity").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
 
   const container = document.getElementById("audio-player-container");
   container.style.height = `${audioPlayer.getBoundingClientRect().height}px`;
@@ -302,16 +311,34 @@ settingsFunctions.enableWaveformVisualiser = ({ visualiser }) => {
   const { canvas, canvasContext: context, analyser, frequencies } = visualiser;
 
   canvas.style.display = "block";
-  context.fillStyle = "blue";
 
-  const numberOfBars = 100;
+  const gradient = context.createLinearGradient(0, 0, 0, canvas.height);
+  gradient.addColorStop(1, document.getElementById("bar-color-1").value);
+  gradient.addColorStop(0.5, document.getElementById("bar-color-2").value);
+  context.fillStyle = gradient;
+
+  context.globalAlpha = parseFloat(document.getElementById("bar-opacity").value) || 0.5;
+
+  const timeSmoothingV = document.getElementById("time-smoothing").value;
+  const timeSmoothing = Math.max(0, Math.min(1, parseFloat(timeSmoothingV) || 0.9));
+  analyser.smoothingTimeConstant = timeSmoothing;
+
+  const maxFrequencyV = document.getElementById("max-frequency").value;
+  const maxFrequency = Math.max(0, Math.min(20, parseFloat(maxFrequencyV) || 8));
+  const maxIndex = Math.round(frequencies.length * (maxFrequency / 20));
+
+  const numberOfBarsV = document.getElementById("number-of-bars").value;
+  const numberOfBars = Math.max(1, Math.min(500, parseInt(numberOfBarsV) || 70));
+
   const numberOfGaps = numberOfBars - 1;
 
-  const relativeGapWidth = 1;
+  const relativeGapWidthV = document.getElementById("relative-gap-width").value;
+  const relativeGapWidth = Math.max(0, Math.min(100, parseFloat(relativeGapWidthV) || 0.3));
+
   const barsAndGapsWidth = numberOfBars + numberOfGaps * relativeGapWidth;
 
   const widthScale = canvas.width / barsAndGapsWidth;
-  const indexScale = frequencies.length / numberOfBars;
+  const indexScale = maxIndex / numberOfBars;
 
   const barWidth = widthScale;
   const gapWidth = widthScale * relativeGapWidth;
