@@ -73,9 +73,15 @@ mark {
   padding: 1rem;
 }
 
+#visualiser {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1rem;
+}
 
 @media only screen and (max-width: 1000px) {
-  #prototype-settings {
+  #prototype-settings, #visualiser {
     position: static;
     border-left: 0;
     padding: 0;
