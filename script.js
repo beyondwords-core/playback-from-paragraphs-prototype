@@ -9,7 +9,11 @@ const main = async () => {
   checkboxes.forEach(c => c.onchange = () => applySetting(c, data));
 
   const audioPlayer = document.getElementById("audio-player");
+  const videoPlayer = document.getElementById("video-player");
+
   audioPlayer.ontimeupdate = () => applyTimeUpdate(audioPlayer, data);
+  videoPlayer.ontimeupdate = () => applyTimeUpdate(videoPlayer, data);
+
   audioPlayer.onplay = () => {
     setupVisualiser(audioPlayer, data);
     applySetting(document.getElementById("WaveformVisualiser"), data)
@@ -82,7 +86,6 @@ const applyTimeUpdate = (audioPlayer, data) => {
 };
 
 settingsFunctions.enableButtonsBetweenParagraphs = async (data) => {
-  const audioPlayer = document.getElementById("audio-player");
   const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
 
   paragraphs.forEach((paragraph, i) => {
@@ -100,8 +103,12 @@ settingsFunctions.enableButtonsBetweenParagraphs = async (data) => {
 
     playButton.innerText = `${minutes}:${seconds}`;
     playButton.onclick = () => {
-      audioPlayer.currentTime = timestamp;
-      audioPlayer.play();
+      const audioPlayer = document.getElementById("audio-player");
+      const videoPlayer = document.getElementById("video-player");
+      const player = activePlayer(audioPlayer, videoPlayer);
+
+      player.currentTime = timestamp;
+      player.play();
     }
   });
 };
@@ -298,22 +305,25 @@ settingsFunctions.disableLeftButtonWhenHovering = () => {
 };
 
 settingsFunctions.enableClickParagraphText = (data) => {
-  const audioPlayer = document.getElementById("audio-player");
   const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
 
   paragraphs.forEach(paragraph => {
     paragraph.onclick = () => {
+      const audioPlayer = document.getElementById("audio-player");
+      const videoPlayer = document.getElementById("video-player");
+      const player = activePlayer(audioPlayer, videoPlayer);
+
       const marker = paragraph.dataset.beyondwordsMarker;
       const timestamp = data.timestamps[marker];
-      const current = currentMarker(audioPlayer, data);
+      const current = currentMarker(player, data);
 
-      if (marker === current && audioPlayer.paused) {
-        audioPlayer.play()
-      } else if (marker === current && !audioPlayer.paused) {
-        audioPlayer.pause()
+      if (marker === current && player.paused) {
+        player.play()
+      } else if (marker === current && !player.paused) {
+        player.pause()
       } else {
-        audioPlayer.currentTime = timestamp;
-        audioPlayer.play()
+        player.currentTime = timestamp;
+        player.play()
       }
     };
 
@@ -477,6 +487,14 @@ settingsFunctions.disableWaveformVideo = (data) => {
   }
 
   videoPlayer.pause();
+};
+
+const activePlayer = (audioPlayer, videoPlayer) => {
+  if (document.getElementById("video-player-container").style.display === "none") {
+    return audioPlayer;
+  } else {
+    return videoPlayer;
+  }
 };
 
 main();
