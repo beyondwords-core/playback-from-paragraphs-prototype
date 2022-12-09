@@ -88,6 +88,7 @@ audio {
 #visualiser-container {
   position: relative;
   background: #222;
+  display: none;
 }
 
 #visualiser-text {
