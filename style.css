@@ -121,6 +121,14 @@ canvas {
   display: block;
 }
 
+#video-player-container {
+  display: none;
+}
+
+#video-player-container video {
+  width: 30rem;
+}
+
 @media only screen and (max-width: 1000px) {
   #prototype-settings {
     position: static;

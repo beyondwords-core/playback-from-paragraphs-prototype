@@ -331,6 +331,9 @@ settingsFunctions.disableClickParagraphText = () => {
 };
 
 settingsFunctions.enableWaveformVisualiser = (data) => {
+  document.getElementById("WaveformVideo").checked = false;
+  settingsFunctions.disableWaveformVideo(data);
+
   document.getElementById("waveform-settings").style.display = "block";
   document.getElementById("visualiser-container").style.display = "block";
 
@@ -433,6 +436,47 @@ settingsFunctions.disableWaveformVisualiser = ({ visualiser }) => {
   }
 
   delete timeUpdateFunctions.visualisationText;
+};
+
+settingsFunctions.enableWaveformVideo = (data) => {
+  document.getElementById("WaveformVisualiser").checked = false;
+  settingsFunctions.disableWaveformVisualiser(data);
+
+  document.getElementById("video-player-container").style.display = "block";
+  document.getElementById("audio-player-container").style.display = "none";
+
+  const videoPlayer = document.getElementById("video-player");
+  const audioPlayer = document.getElementById("audio-player");
+
+  videoPlayer.currentTime = audioPlayer.currentTime;
+
+  if (audioPlayer.paused) {
+    videoPlayer.pause();
+  } else {
+    videoPlayer.play();
+  }
+
+  audioPlayer.pause();
+};
+
+settingsFunctions.disableWaveformVideo = (data) => {
+  if (document.getElementById("video-player-container").style.display === "none") { return; }
+
+  document.getElementById("video-player-container").style.display = "none";
+  document.getElementById("audio-player-container").style.display = "block";
+
+  const videoPlayer = document.getElementById("video-player");
+  const audioPlayer = document.getElementById("audio-player");
+
+  audioPlayer.currentTime = videoPlayer.currentTime;
+
+  if (videoPlayer.paused) {
+    audioPlayer.pause();
+  } else {
+    audioPlayer.play();
+  }
+
+  videoPlayer.pause();
 };
 
 main();

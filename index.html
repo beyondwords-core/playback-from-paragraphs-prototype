@@ -29,8 +29,8 @@
         Highlight hovered paragraph
       </input><br/>
 
-      <input type="checkbox" id="WaveformVideo" disabled>
-        <span style="color: gray">Show waveform video</span>
+      <input type="checkbox" id="WaveformVideo">
+        Show waveform video
       </input><br/>
 
       <input type="checkbox" id="WaveformVisualiser">
@@ -87,10 +87,16 @@
 
       <div id="audio-player-container">
         <div>
-          <audio id="audio-player" controls crossorigin="anonymous">
+          <audio id="audio-player" controls>
             <source src="audio.mp3" type="audio/mpeg">
           </audio>
         </div>
+      </div>
+
+      <div id="video-player-container">
+        <video id="video-player" controls>
+          <source src="waveform.mp4" type="audio/mp4">
+        </video>
       </div>
 
       <p data-beyondwords-marker="marker-1">
