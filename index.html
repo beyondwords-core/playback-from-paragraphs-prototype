@@ -38,6 +38,9 @@
       </input><br/>
 
       <div id="waveform-settings" style="display: none">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Show logo:
+        <input type="checkbox" id="show-logo" checked="checked"></input><br/>
+
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Show text:
         <input type="checkbox" id="show-text" checked="checked"></input><br/>
 
@@ -74,7 +77,12 @@
 
       <div id="visualiser-container">
         <canvas id="visualiser" width="480" height="220"></canvas>
+
         <div id="visualiser-text"></div>
+
+        <a id="visualiser-logo" href="https://beyondwords.io" target="_blank">
+          <img src="logo.svg" alt="BeyondWords Logo" />
+        </a>
       </div>
 
       <div id="audio-player-container">

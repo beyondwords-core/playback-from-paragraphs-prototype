@@ -91,6 +91,17 @@ audio {
   display: none;
 }
 
+#visualiser-logo {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.7rem;
+  text-decoration: none;
+}
+
+#visualiser-logo img {
+  width: 8rem;
+}
+
 #visualiser-text {
   position: absolute;
   top: 0;

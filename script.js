@@ -15,6 +15,7 @@ const main = async () => {
     applySetting(document.getElementById("WaveformVisualiser"), data)
   };
 
+  document.getElementById("show-logo").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("show-text").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("number-of-bars").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("max-bar-height").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
@@ -333,6 +334,28 @@ settingsFunctions.enableWaveformVisualiser = (data) => {
   document.getElementById("waveform-settings").style.display = "block";
   document.getElementById("visualiser-container").style.display = "block";
 
+  const audioPlayer = document.getElementById("audio-player");
+  const visualiserLogo = document.getElementById("visualiser-logo");
+  const visualiserText = document.getElementById("visualiser-text");
+  const showLogo = document.getElementById("show-logo");
+  const showText = document.getElementById("show-text");
+
+  timeUpdateFunctions.visualisationText = (audioPlayer, data) => {
+    if (showLogo.checked) {
+      visualiserLogo.style.display = "block";
+    } else {
+      visualiserLogo.style.display = "none";
+    }
+
+    if (showText.checked) {
+      visualiserText.innerText = currentVideoText(audioPlayer, data);
+    } else {
+      visualiserText.innerText = "";
+    }
+  };
+
+  timeUpdateFunctions.visualisationText(audioPlayer, data);
+
   const visualiser = data.visualiser;
   if (!visualiser) { return; }
 
@@ -397,19 +420,6 @@ settingsFunctions.enableWaveformVisualiser = (data) => {
     requestAnimationFrame(render);
   };
 
-  const audioPlayer = document.getElementById("audio-player");
-  const visualiserText = document.getElementById("visualiser-text");
-  const showText = document.getElementById("show-text");
-
-  timeUpdateFunctions.visualisationText = (audioPlayer, data) => {
-    if (showText.checked) {
-      visualiserText.innerText = currentVideoText(audioPlayer, data);
-    } else {
-      visualiserText.innerText = "";
-    }
-  };
-
-  timeUpdateFunctions.visualisationText(audioPlayer, data);
 
   render();
 };
