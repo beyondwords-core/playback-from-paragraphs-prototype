@@ -17,14 +17,17 @@
     [0.046042, "Investors pull £1bn from UK focused funds ahead of recession"],
     [5.712042, "Investors pulled a net £1.02 billion from UK focused funds in November, making it the second worst month on record, according to a study."],
     [15.362042, "They are shunning the UK because of fears that the recession may last longer than elsewhere, according to the fund flows data provider Calastone."],
-    [23.788042, "In the past 18 months, a net £9.8 billion has been pulled from UK focused funds and November’s outflow has been exceeded only once before, in June 2022, it said."],
-    [36.774042, "“Fears over the potential duration of the UK’s recession rather than hopes for inflation abating are dominating investor concerns for UK assets,” Edward Glyn, head of global markets, said. “Despite low valuations, you can barely give them away at the moment.”"],
-    [53.192042, "Calastone’s data is published ahead of comprehensive figures from the Investment Association, which this week reported that net outflows from UK funds in October amounted to £792 million."],
-    [66.010042, "The Bank of England and Office for Budget Responsibility believe that the UK entered a recession in the third quarter of 2022 and will come out of it only at the end of next year."],
-    [77.532042, "While UK focused funds were being shunned, investors piled into global bond funds, with a net £1.09 billion invested in November. This was the largest monthly inflow in two years and the fourth highest on record."],
-    [92.150042, "Bond yields slumped in the month as investors scented a turning point in the interest rate cycle, with expectations the US Federal Reserve was beginning to curb inflation and so could stop raising rates sooner, or by smaller amounts."],
+    [23.788042, "In the past 18 months, a net £9.8 billion has been pulled from UK focused funds and November’s outflow has been exceeded only once before, in June..."],
+    [34.5, "2022, it said. “Fears over the potential duration of the UK’s recession rather than hopes for inflation abating are dominating investor concerns for UK assets,”..."],
+    [45, "Edward Glyn, head of global markets, said. “Despite low valuations, you can barely give them away at the moment. Calastone’s data is published ahead..."],
+    [55.5, "of comprehensive figures from the Investment Association, which this week reported that net outflows from UK funds in October amounted to £792 million."],
+    [66.010042, "The Bank of England and Office for Budget Responsibility believe that the UK entered a recession in the third quarter of 2022 and will come out of it only at the..."],
+    [75.532042, "end of next year. While UK focused funds were being shunned, investors piled into global bond funds, with a net £1.09 billion invested in November. This was the..."],
+    [87.8, "largest monthly inflow in two years and the fourth highest on record. Bond yields slumped in the month as investors scented a turning point in the interest..."],
+    [96.5, "rate cycle, with expectations the US Federal Reserve was beginning to curb inflation and so could stop raising rates sooner, or by smaller amounts."],
     [106.024042, "Glyn said optimism fed into a first net inflow into equity funds worldwide for seven months. The trajectory of US rates was a key driver of global markets."],
-    [117.090042, "Investor gloom about the UK does not appear to have fed through into share price movements, however. From the low of October 12, the FTSE 100 is up by just over 10 per cent, matching the S&P 500, while the more UK focused FTSE 250 is up by 14 per cent. The Euro Stoxx 50, which tracks blue-chips in the eurozone, is up by 18 per cent."],
-    [141.668042, "Calastone connects fund managers with institutional investors, processing £250 billion of flows each month."]
+    [117.090042, "Investor gloom about the UK does not appear to have fed through into share price movements, however. From the low of October 12, the FTSE 100 is up by..."],
+    [127.5, "just over 10 per cent, matching the S&P 500, while the more UK focused FTSE 250 is up by 14 per cent. The Euro Stoxx 50, which tracks blue-chips in the..."],
+    [138.6, "eurozone, is up by 18 per cent. Calastone connects fund managers with institutional investors, processing £250 billion of flows each month."]
   ]
 }
