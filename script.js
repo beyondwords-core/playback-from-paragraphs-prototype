@@ -313,6 +313,7 @@ settingsFunctions.disableClickParagraphText = () => {
 
 settingsFunctions.enableWaveformVisualiser = ({ visualiser }) => {
   document.getElementById("waveform-settings").style.display = "block";
+  document.getElementById("visualiser-container").style.display = "block";
 
   if (!visualiser) { return; }
   const { canvas, canvasContext: context, analyser, frequencies } = visualiser;
@@ -373,15 +374,26 @@ settingsFunctions.enableWaveformVisualiser = ({ visualiser }) => {
     requestAnimationFrame(render);
   };
 
+
+  timeUpdateFunctions.visualisationText = (audioPlayer) => {
+    document.getElementById("visualiser-text").innerText = audioPlayer.currentTime;
+  };
+
+  const audioPlayer = document.getElementById("audio-player");
+  timeUpdateFunctions.visualisationText(audioPlayer);
+
   render();
 };
 
 settingsFunctions.disableWaveformVisualiser = ({ visualiser }) => {
   document.getElementById("waveform-settings").style.display = "none";
+  document.getElementById("visualiser-container").style.display = "none";
 
   if (visualiser) {
     visualiser.canvas.style.display = "none";
   }
+
+  delete timeUpdateFunctions.visualisationText;
 };
 
 main();
