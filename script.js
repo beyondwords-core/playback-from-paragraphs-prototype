@@ -310,6 +310,7 @@ settingsFunctions.disableClickParagraphText = () => {
 settingsFunctions.enableWaveformVisualiser = ({ visualiser }) => {
   const { canvas, canvasContext: context, analyser, frequencies } = visualiser;
 
+  document.getElementById("waveform-settings").style.display = "block";
   canvas.style.display = "block";
 
   const gradient = context.createLinearGradient(0, 0, 0, canvas.height);
@@ -371,6 +372,7 @@ settingsFunctions.enableWaveformVisualiser = ({ visualiser }) => {
 
 settingsFunctions.disableWaveformVisualiser = ({ visualiser }) => {
   visualiser.canvas.style.display = "none";
+  document.getElementById("waveform-settings").style.display = "none";
 };
 
 main();
