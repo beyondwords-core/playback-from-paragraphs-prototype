@@ -4,13 +4,14 @@ const timeUpdateFunctions = {};
 const main = async () => {
   const data = await fetch("data.json").then(r => r.json());
 
+  const audioPlayer = document.getElementById("audio-player");
+  setupVisualiser(audioPlayer, data);
+
   const prototypeSettings = document.getElementById("prototype-settings");
   const checkboxes = prototypeSettings.querySelectorAll("input[type='checkbox']");
 
   checkboxes.forEach(c => c.checked && applySetting(c, data));
   checkboxes.forEach(c => c.onchange = () => applySetting(c, data));
-
-  const audioPlayer = document.getElementById("audio-player");
   audioPlayer.ontimeupdate = () => applyTimeUpdate(audioPlayer);
 
   const container = document.getElementById("audio-player-container");
@@ -32,6 +33,23 @@ const fixAudioPlayerToBottom = () => {
   } else {
     audioPlayer.parentNode.classList.add('fix-to-bottom');
   }
+};
+
+const setupVisualiser = (audioPlayer, data) => {
+  const canvas = document.getElementById("visualiser");
+  const canvasContext = canvas.getContext("2d");
+
+  const audioContext = new AudioContext();
+  const source = audioContext.createMediaElementSource(audioPlayer);
+  const analyser = audioContext.createAnalyser();
+
+  analyser.fftSize = 2048;
+  source.connect(analyser);
+  analyser.connect(audioContext.destination);
+
+  const frequencies = new Uint8Array(analyser.frequencyBinCount);
+
+  data.visualiser = { canvas, canvasContext, analyser, frequencies };
 };
 
 const applySetting = (checkbox, data) => {
@@ -278,6 +296,54 @@ settingsFunctions.disableClickParagraphText = () => {
     paragraph.onclick = () => {};
     paragraph.classList.remove("click-to-play");
   });
+};
+
+settingsFunctions.enableWaveformVisualiser = ({ visualiser }) => {
+  const { canvas, canvasContext: context, analyser, frequencies } = visualiser;
+
+  canvas.style.display = "block";
+  context.fillStyle = "blue";
+
+  const numberOfBars = 100;
+  const numberOfGaps = numberOfBars - 1;
+
+  const relativeGapWidth = 1;
+  const barsAndGapsWidth = numberOfBars + numberOfGaps * relativeGapWidth;
+
+  const widthScale = canvas.width / barsAndGapsWidth;
+  const indexScale = frequencies.length / numberOfBars;
+
+  const barWidth = widthScale;
+  const gapWidth = widthScale * relativeGapWidth;
+
+  const render = () => {
+    if (canvas.style.display === "none") { return; }
+
+    analyser.getByteFrequencyData(frequencies);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let bar = 0; bar < numberOfBars; bar += 1) {
+      const indexFrom = Math.round(bar * indexScale);
+      const indexTo = Math.round(indexFrom + indexScale);
+
+      let sum = 0;
+      for (let i = indexFrom; i < indexTo; i += 1) { sum += frequencies[i]; }
+      const frequency = sum / indexScale;
+
+      const barHeight = frequency / 255 * canvas.height;
+      const barLeft = bar * (barWidth + gapWidth);
+
+      context.fillRect(barLeft, canvas.height - barHeight, barWidth, barHeight);
+    }
+
+    requestAnimationFrame(render);
+  };
+
+  render();
+};
+
+settingsFunctions.disableWaveformVisualiser = ({ visualiser }) => {
+  visualiser.canvas.style.display = "none";
 };
 
 main();
