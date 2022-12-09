@@ -4,16 +4,18 @@ const timeUpdateFunctions = {};
 const main = async () => {
   const data = await fetch("data.json").then(r => r.json());
 
-  const audioPlayer = document.getElementById("audio-player");
-  setupVisualiser(audioPlayer, data);
-
   const prototypeSettings = document.getElementById("prototype-settings");
   const checkboxes = prototypeSettings.querySelectorAll("input[type='checkbox']");
 
   checkboxes.forEach(c => c.checked && applySetting(c, data));
   checkboxes.forEach(c => c.onchange = () => applySetting(c, data));
 
+  const audioPlayer = document.getElementById("audio-player");
   audioPlayer.ontimeupdate = () => applyTimeUpdate(audioPlayer);
+  audioPlayer.onplay = () => {
+    setupVisualiser(audioPlayer, data);
+    applySetting(document.getElementById("WaveformVisualiser"), data)
+  };
 
   document.getElementById("number-of-bars").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("relative-gap-width").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
@@ -308,9 +310,11 @@ settingsFunctions.disableClickParagraphText = () => {
 };
 
 settingsFunctions.enableWaveformVisualiser = ({ visualiser }) => {
+  document.getElementById("waveform-settings").style.display = "block";
+
+  if (!visualiser) { return; }
   const { canvas, canvasContext: context, analyser, frequencies } = visualiser;
 
-  document.getElementById("waveform-settings").style.display = "block";
   canvas.style.display = "block";
 
   const gradient = context.createLinearGradient(0, 0, 0, canvas.height);
