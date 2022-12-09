@@ -29,11 +29,18 @@
         Highlight hovered paragraph
       </input><br/>
 
+      <input type="checkbox" id="WaveformVideo" disabled>
+        <span style="color: gray">Show waveform video</span>
+      </input><br/>
+
       <input type="checkbox" id="WaveformVisualiser">
-        Show waveform video
+        Show configurable waveform
       </input><br/>
 
       <div id="waveform-settings" style="display: none">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Show text:
+        <input type="checkbox" id="show-text" checked="checked"></input><br/>
+
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of bars:
         <input type="text" id="number-of-bars" value="70" style="width: 2rem"></input><br/>
 

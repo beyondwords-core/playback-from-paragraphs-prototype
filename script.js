@@ -3,9 +3,7 @@ const timeUpdateFunctions = {};
 
 const main = async () => {
   const data = await fetch("data.json").then(r => r.json());
-
-  const prototypeSettings = document.getElementById("prototype-settings");
-  const checkboxes = prototypeSettings.querySelectorAll("input[type='checkbox']");
+  const checkboxes = document.querySelectorAll("#prototype-settings > input[type='checkbox']")
 
   checkboxes.forEach(c => c.checked && applySetting(c, data));
   checkboxes.forEach(c => c.onchange = () => applySetting(c, data));
@@ -17,6 +15,7 @@ const main = async () => {
     applySetting(document.getElementById("WaveformVisualiser"), data)
   };
 
+  document.getElementById("show-text").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("number-of-bars").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("relative-gap-width").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("max-frequency").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
@@ -396,9 +395,14 @@ settingsFunctions.enableWaveformVisualiser = (data) => {
 
   const audioPlayer = document.getElementById("audio-player");
   const visualiserText = document.getElementById("visualiser-text");
+  const showText = document.getElementById("show-text");
 
   timeUpdateFunctions.visualisationText = (audioPlayer, data) => {
-    visualiserText.innerText = currentVideoText(audioPlayer, data);
+    if (showText.checked) {
+      visualiserText.innerText = currentVideoText(audioPlayer, data);
+    } else {
+      visualiserText.innerText = "";
+    }
   };
 
   timeUpdateFunctions.visualisationText(audioPlayer, data);
