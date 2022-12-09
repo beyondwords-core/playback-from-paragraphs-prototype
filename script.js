@@ -17,6 +17,7 @@ const main = async () => {
 
   document.getElementById("show-text").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("number-of-bars").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
+  document.getElementById("max-bar-height").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("relative-gap-width").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("max-frequency").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("time-smoothing").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
@@ -339,12 +340,15 @@ settingsFunctions.enableWaveformVisualiser = (data) => {
 
   canvas.style.display = "block";
 
-  const gradient = context.createLinearGradient(0, 0, 0, canvas.height);
-  gradient.addColorStop(1, document.getElementById("bar-color-1").value);
-  gradient.addColorStop(0.5, document.getElementById("bar-color-2").value);
+  const maxBarHeightV = document.getElementById("max-bar-height").value;
+  const maxBarHeight = Math.max(0, Math.min(1, parseFloat(maxBarHeightV) || 0.25));
+
+  const gradient = context.createLinearGradient(0, canvas.height, 0, canvas.height - canvas.height * maxBarHeight);
+  gradient.addColorStop(0, document.getElementById("bar-color-1").value);
+  gradient.addColorStop(1, document.getElementById("bar-color-2").value);
   context.fillStyle = gradient;
 
-  context.globalAlpha = parseFloat(document.getElementById("bar-opacity").value) || 0.5;
+  context.globalAlpha = parseFloat(document.getElementById("bar-opacity").value) || 0.6;
 
   const timeSmoothingV = document.getElementById("time-smoothing").value;
   const timeSmoothing = Math.max(0, Math.min(1, parseFloat(timeSmoothingV) || 0.9));
@@ -384,7 +388,7 @@ settingsFunctions.enableWaveformVisualiser = (data) => {
       for (let i = indexFrom; i < indexTo; i += 1) { sum += frequencies[i]; }
       const frequency = sum / indexScale;
 
-      const barHeight = frequency / 255 * canvas.height;
+      const barHeight = frequency / 255 * canvas.height * maxBarHeight;
       const barLeft = bar * (barWidth + gapWidth);
 
       context.fillRect(barLeft, canvas.height - barHeight, barWidth, barHeight);
