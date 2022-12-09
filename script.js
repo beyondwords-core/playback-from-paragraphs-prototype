@@ -11,7 +11,7 @@ const main = async () => {
   checkboxes.forEach(c => c.onchange = () => applySetting(c, data));
 
   const audioPlayer = document.getElementById("audio-player");
-  audioPlayer.ontimeupdate = () => applyTimeUpdate(audioPlayer);
+  audioPlayer.ontimeupdate = () => applyTimeUpdate(audioPlayer, data);
   audioPlayer.onplay = () => {
     setupVisualiser(audioPlayer, data);
     applySetting(document.getElementById("WaveformVisualiser"), data)
@@ -73,8 +73,8 @@ const applySetting = (checkbox, data) => {
   }
 };
 
-const applyTimeUpdate = (audioPlayer) => {
-  Object.values(timeUpdateFunctions).forEach(f => f(audioPlayer));
+const applyTimeUpdate = (audioPlayer, data) => {
+  Object.values(timeUpdateFunctions).forEach(f => f(audioPlayer, data));
 };
 
 settingsFunctions.enableButtonsBetweenParagraphs = async (data) => {
@@ -118,6 +118,21 @@ const currentMarker = (audioPlayer, data) => {
   }
 
   return marker;
+};
+
+const currentVideoText = (audioPlayer, data) => {
+  let text;
+  for (const arr of data.videoText) {
+    const [time, t] = arr;
+
+    if (time < audioPlayer.currentTime + 0.5) {
+      text = t;
+    }  else {
+      break;
+    }
+  }
+
+  return text;
 };
 
 settingsFunctions.enableHighlightCurrentParagraph = (data) => {
@@ -311,11 +326,13 @@ settingsFunctions.disableClickParagraphText = () => {
   });
 };
 
-settingsFunctions.enableWaveformVisualiser = ({ visualiser }) => {
+settingsFunctions.enableWaveformVisualiser = (data) => {
   document.getElementById("waveform-settings").style.display = "block";
   document.getElementById("visualiser-container").style.display = "block";
 
+  const visualiser = data.visualiser;
   if (!visualiser) { return; }
+
   const { canvas, canvasContext: context, analyser, frequencies } = visualiser;
 
   canvas.style.display = "block";
@@ -374,13 +391,14 @@ settingsFunctions.enableWaveformVisualiser = ({ visualiser }) => {
     requestAnimationFrame(render);
   };
 
+  const audioPlayer = document.getElementById("audio-player");
+  const visualiserText = document.getElementById("visualiser-text");
 
-  timeUpdateFunctions.visualisationText = (audioPlayer) => {
-    document.getElementById("visualiser-text").innerText = audioPlayer.currentTime;
+  timeUpdateFunctions.visualisationText = (audioPlayer, data) => {
+    visualiserText.innerText = currentVideoText(audioPlayer, data);
   };
 
-  const audioPlayer = document.getElementById("audio-player");
-  timeUpdateFunctions.visualisationText(audioPlayer);
+  timeUpdateFunctions.visualisationText(audioPlayer, data);
 
   render();
 };
