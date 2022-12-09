@@ -21,6 +21,10 @@ mark {
   background: none;
 }
 
+audio {
+  width: 30rem;
+}
+
 .button-between-paragraphs {
   display: block;
   margin-top: 2rem;
@@ -82,10 +86,8 @@ mark {
 }
 
 #visualiser-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 1rem;
+  position: relative;
+  background: #222;
 }
 
 #visualiser-text {
@@ -98,10 +100,17 @@ mark {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 3rem;
+  font-size: 1.3rem;
+  color: white;
+}
+
+canvas {
+  display: block;
 }
 
 @media only screen and (max-width: 1000px) {
-  #prototype-settings, #visualiser {
+  #prototype-settings {
     position: static;
     border-left: 0;
     padding: 0;

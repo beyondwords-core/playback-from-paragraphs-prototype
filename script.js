@@ -37,7 +37,10 @@ const fixAudioPlayerToBottom = () => {
   const { y } = audioPlayer.getBoundingClientRect();
 
   const isMobile = window.innerWidth < 1000;
-  const yLimit = isMobile ? 280 : 100;
+  const isVideo = document.getElementById("WaveformVisualiser").checked;
+
+  let yLimit = isMobile ? 650 : 140;
+  if (isVideo) { yLimit += 220; }
 
   if (window.scrollY < yLimit) {
     audioPlayer.parentNode.classList.remove('fix-to-bottom');
