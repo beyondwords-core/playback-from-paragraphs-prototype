@@ -19,6 +19,7 @@ const main = async () => {
     applySetting(document.getElementById("WaveformVisualiser"), data)
   };
 
+  document.getElementById("dark-mode-video").oninput = () => applySetting(document.getElementById("WaveformVideo"), data);
   document.getElementById("dark-mode").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("show-logo").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("show-text").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
@@ -472,26 +473,43 @@ settingsFunctions.enableWaveformVideo = (data) => {
   settingsFunctions.disableWaveformVisualiser(data);
 
   document.getElementById("video-player-container").style.display = "block";
+  document.getElementById("video-settings").style.display = "block";
   document.getElementById("audio-player-container").style.display = "none";
 
   const videoPlayer = document.getElementById("video-player");
   const audioPlayer = document.getElementById("audio-player");
 
-  videoPlayer.currentTime = audioPlayer.currentTime;
+  const darkMode = document.getElementById("dark-mode-video");
+  const videoSource = document.getElementById("video-source");
 
-  if (audioPlayer.paused) {
-    videoPlayer.pause();
+  const isPlaying = !audioPlayer.paused || !videoPlayer.paused;
+  const currentTime = audioPlayer.currentTime || videoPlayer.currentTime;
+
+  if (darkMode.checked) {
+    videoSource.setAttribute("src", "waveform-dark.mp4");
+    videoPlayer.load();
   } else {
+    videoSource.setAttribute("src", "waveform-light.mp4");
+    videoPlayer.load();
+  }
+
+  videoPlayer.currentTime = currentTime;
+
+  if (isPlaying) {
     videoPlayer.play();
+  } else {
+    videoPlayer.pause();
   }
 
   audioPlayer.pause();
+  audioPlayer.currentTime = 0;
 };
 
 settingsFunctions.disableWaveformVideo = (data) => {
   if (document.getElementById("video-player-container").style.display === "none") { return; }
 
   document.getElementById("video-player-container").style.display = "none";
+  document.getElementById("video-settings").style.display = "none";
   document.getElementById("audio-player-container").style.display = "block";
 
   const videoPlayer = document.getElementById("video-player");

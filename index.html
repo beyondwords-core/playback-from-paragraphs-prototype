@@ -34,6 +34,11 @@
         Show waveform video
       </input><br/>
 
+      <div id="video-settings" style="display: none">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dark mode:
+        <input type="checkbox" id="dark-mode-video" checked="checked"></input><br/>
+      </div>
+
       <input type="checkbox" id="WaveformVisualiser">
         Show configurable waveform
       </input><br/>
@@ -97,9 +102,9 @@
         </div>
       </div>
 
-      <div id="video-player-container" style="display: none">
+      <div id="video-player-container" style="display: none; height: 270px">
         <video id="video-player" controls>
-          <source src="waveform.mp4" type="audio/mp4">
+          <source src="waveform-dark.mp4" type="audio/mp4" id="video-source">
         </video>
       </div>
 
