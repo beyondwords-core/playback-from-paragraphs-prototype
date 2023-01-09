@@ -138,7 +138,7 @@ const currentVideoText = (audioPlayer, data) => {
   for (const arr of data.wordTimestamps) {
     const [word, wordTime, isNextFrame] = arr;
 
-    if (!reachedWord && wordTime > audioPlayer.currentTime + 0.5) {
+    if (!reachedWord && wordTime > audioPlayer.currentTime + 0.067) {
       html += "</span>";
       reachedWord = true;
     }
@@ -146,11 +146,13 @@ const currentVideoText = (audioPlayer, data) => {
     if (isNextFrame && !reachedWord) {
       html = "<span class='visualiser-text-highlight'>";
     } else if (isNextFrame && reachedWord) {
-      return `<span>${html}</span>`;
+      break;
     }
 
     html += ` ${word}`;
   }
+
+  return `<span>${html}</span>`;
 };
 
 settingsFunctions.enableHighlightCurrentParagraph = (data) => {
