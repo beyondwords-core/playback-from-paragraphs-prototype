@@ -92,7 +92,7 @@ settingsFunctions.enableButtonsBetweenParagraphs = async (data) => {
     if (i === 0) { return; }
 
     const marker = paragraph.dataset.beyondwordsMarker;
-    const timestamp = data.timestamps[marker];
+    const timestamp = data.paragraphTimestamps[marker];
 
     const playButton = document.createElement("button");
     playButton.classList.add("button-between-paragraphs");
@@ -120,7 +120,7 @@ settingsFunctions.disableButtonsBetweenParagraphs = () => {
 
 const currentMarker = (audioPlayer, data) => {
   let marker;
-  for (const [key, value] of Object.entries(data.timestamps)) {
+  for (const [key, value] of Object.entries(data.paragraphTimestamps)) {
     if (value < audioPlayer.currentTime + 0.5) {
       marker = key;
     }  else {
@@ -247,7 +247,7 @@ settingsFunctions.enableLeftButtonWhenHovering = (data) => {
           }
           paragraph.append(playButton);
 
-          const timestamp = data.timestamps[marker];
+          const timestamp = data.paragraphTimestamps[marker];
 
           playButton.onclick = (event) => {
             const current = currentMarker(audioPlayer, data);
@@ -314,7 +314,7 @@ settingsFunctions.enableClickParagraphText = (data) => {
       const player = activePlayer(audioPlayer, videoPlayer);
 
       const marker = paragraph.dataset.beyondwordsMarker;
-      const timestamp = data.timestamps[marker];
+      const timestamp = data.paragraphTimestamps[marker];
       const current = currentMarker(player, data);
 
       if (marker === current && player.paused) {
@@ -361,9 +361,9 @@ settingsFunctions.enableWaveformVisualiser = (data) => {
     }
 
     if (showText.checked) {
-      visualiserText.innerText = currentVideoText(audioPlayer, data);
+      visualiserText.innerHtml = currentVideoText(audioPlayer, data);
     } else {
-      visualiserText.innerText = "";
+      visualiserText.innerHtml = "";
     }
   };
 

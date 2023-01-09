@@ -1,17 +1,17 @@
 {
-  "timestamps": {
-    "marker-0":0.046042,
-    "marker-1":5.712042,
-    "marker-2":15.362042,
-    "marker-3":23.788042,
-    "marker-4":36.774042,
-    "marker-5":53.192042,
-    "marker-6":66.010042,
-    "marker-7":77.532042,
-    "marker-8":92.150042,
-    "marker-9":106.024042,
-    "marker-10":117.090042,
-    "marker-11":141.668042
+  "paragraphTimestamps": {
+    "marker-0": 0.046042,
+    "marker-1": 5.712042,
+    "marker-2": 15.362042,
+    "marker-3": 23.788042,
+    "marker-4": 36.774042,
+    "marker-5": 53.192042,
+    "marker-6": 66.010042,
+    "marker-7": 77.532042,
+    "marker-8": 92.150042,
+    "marker-9": 106.024042,
+    "marker-10": 117.090042,
+    "marker-11": 141.668042
   },
   "videoText": [
     [0.046042, "Investors pull £1bn from UK focused funds ahead of recession"],
