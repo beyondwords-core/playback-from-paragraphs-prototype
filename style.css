@@ -113,7 +113,7 @@ audio {
 
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 0 3rem;
   color: white;
 

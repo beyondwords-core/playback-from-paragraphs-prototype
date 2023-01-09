@@ -135,8 +135,9 @@ const currentVideoText = (audioPlayer, data) => {
   let html = "";
   let reachedWord = false;
 
-  for (const arr of data.wordTimestamps) {
-    const [word, wordTime, isNextFrame] = arr;
+  for (let i = 0; i < data.wordTimestamps.length; i += 1) {
+    const [word, wordTime] = data.wordTimestamps[i];
+    const isNextFrame = i % 8 === 0;
 
     if (!reachedWord && wordTime > audioPlayer.currentTime + 0.067) {
       html += "</span>";
