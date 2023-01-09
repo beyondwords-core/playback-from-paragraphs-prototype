@@ -19,6 +19,7 @@ const main = async () => {
     applySetting(document.getElementById("WaveformVisualiser"), data)
   };
 
+  document.getElementById("dark-mode").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("show-logo").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("show-text").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
   document.getElementById("number-of-bars").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
@@ -358,12 +359,20 @@ settingsFunctions.enableWaveformVisualiser = (data) => {
   document.getElementById("visualiser-container").style.display = "block";
 
   const audioPlayer = document.getElementById("audio-player");
+  const visualiserContainer = document.getElementById("visualiser-container");
   const visualiserLogo = document.getElementById("visualiser-logo");
   const visualiserText = document.getElementById("visualiser-text");
+  const darkMode = document.getElementById("dark-mode");
   const showLogo = document.getElementById("show-logo");
   const showText = document.getElementById("show-text");
 
   timeUpdateFunctions.visualisationText = (audioPlayer, data) => {
+    if (darkMode.checked) {
+      visualiserContainer.classList.add("dark-mode");
+    } else {
+      visualiserContainer.classList.remove("dark-mode");
+    }
+
     if (showLogo.checked) {
       visualiserLogo.style.display = "block";
     } else {

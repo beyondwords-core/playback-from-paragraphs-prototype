@@ -89,8 +89,12 @@ audio {
 
 #visualiser-container {
   position: relative;
-  background: #1e1e1e;
+  background: #efefef;
   display: none;
+}
+
+#visualiser-container.dark-mode {
+  background: #1e1e1e;
 }
 
 #visualiser-logo {
@@ -115,12 +119,16 @@ audio {
   align-items: center;
   justify-content: flex-start;
   padding: 0 3rem;
-  color: white;
+  color: #323232;
 
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 27px;
   line-height: 1.2;
+}
+
+.dark-mode #visualiser-text {
+  color: white;
 }
 
 .visualiser-text-highlight {
