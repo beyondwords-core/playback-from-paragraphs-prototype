@@ -132,18 +132,25 @@ const currentMarker = (audioPlayer, data) => {
 };
 
 const currentVideoText = (audioPlayer, data) => {
-  let text;
-  for (const arr of data.videoText) {
-    const [time, t] = arr;
+  let html = "";
+  let reachedWord = false;
 
-    if (time < audioPlayer.currentTime + 0.5) {
-      text = t;
-    }  else {
-      break;
+  for (const arr of data.wordTimestamps) {
+    const [word, wordTime, isNextFrame] = arr;
+
+    if (!reachedWord && wordTime > audioPlayer.currentTime + 0.5) {
+      html += "</span>";
+      reachedWord = true;
     }
-  }
 
-  return text;
+    if (isNextFrame && !reachedWord) {
+      html = "<span class='visualiser-text-highlight'>";
+    } else if (isNextFrame && reachedWord) {
+      return `<span>${html}</span>`;
+    }
+
+    html += ` ${word}`;
+  }
 };
 
 settingsFunctions.enableHighlightCurrentParagraph = (data) => {
@@ -361,9 +368,9 @@ settingsFunctions.enableWaveformVisualiser = (data) => {
     }
 
     if (showText.checked) {
-      visualiserText.innerHtml = currentVideoText(audioPlayer, data);
+      visualiserText.innerHTML = currentVideoText(audioPlayer, data);
     } else {
-      visualiserText.innerHtml = "";
+      visualiserText.innerHTML = "";
     }
   };
 
