@@ -30,52 +30,55 @@
         Highlight hovered paragraph
       </input><br/>
 
-      <input type="checkbox" id="WaveformVideo">
-        Show waveform video
-      </input><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Player style:
+      <select id="PlayerStyle">
+        <option value="small">small</option>
+        <option value="standard" selected>standard</option>
+        <option value="large">large</option>
+        <option value="video">video</option>
+      </select><br/><div style="height: 12px"></div>
+
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Widget style:
+      <select id="WidgetStyle">
+        <option value="small">small</option>
+        <option value="standard" selected>standard</option>
+        <option value="large">large</option>
+        <option value="video">video</option>
+      </select><br/><div style="height: 12px"></div>
+
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Widget position:
+      <select id="WidgetPosition">
+        <option value="auto" selected>auto</option>
+        <option value="left">left</option>
+        <option value="center">center</option>
+        <option value="right">right</option>
+      </select><br/><div style="height: 12px"></div>
+
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Widget width:
+      <select id="WidgetWidth">
+        <option value="auto" selected>auto</option>
+        <option value="0">smallest</option>
+        <option value="480px">480px</option>
+      </select><br/><div style="height: 12px"></div>
+
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Skip button style:
+      <select id="SkipButtonStyle">
+        <option value="segments" selected>segments</option>
+        <option value="seconds">seconds</option>
+        <option value="seconds-15">seconds-15</option>
+        <option value="seconds-10-20">seconds-10-20</option>
+        <option value="tracks">audios</option>
+      </select><br/><div style="height: 12px"></div>
+
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color theme:
+      <select id="ColorTheme">
+        <option value="light" selected>light</option>
+        <option value="dark">dark</option>
+      </select><br/>
 
       <div id="video-settings" style="display: none">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dark mode:
         <input type="checkbox" id="dark-mode-video" checked="checked"></input><br/>
-      </div>
-
-      <input type="checkbox" id="WaveformVisualiser">
-        Show configurable waveform
-      </input><br/>
-
-      <div id="waveform-settings" style="display: none">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dark mode:
-        <input type="checkbox" id="dark-mode" checked="checked"></input><br/>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Show logo:
-        <input type="checkbox" id="show-logo" checked="checked"></input><br/>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Show text:
-        <input type="checkbox" id="show-text" checked="checked"></input><br/>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of bars:
-        <input type="text" id="number-of-bars" value="70" style="width: 2rem"></input><br/>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max bar height
-        <input type="text" id="max-bar-height" value="0.25" style="width: 2rem"></input><br/>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relative gap width:
-        <input type="text" id="relative-gap-width" value="0.3" style="width: 2rem"></input><br/>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max Frequency (kHz):
-        <input type="text" id="max-frequency" value="8" style="width: 2rem"></input><br/>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time smoothing:
-        <input type="text" id="time-smoothing" value="0.9" style="width: 2rem"></input><br/>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bar color 1:
-        <input type="text" id="bar-color-1" value="#933AFB" style="width: 4rem"></input><br/>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bar color 2:
-        <input type="text" id="bar-color-2" value="#FB3A41" style="width: 4rem"></input><br/>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bar opacity:
-        <input type="text" id="bar-opacity" value="0.6" style="width: 2rem"></input>
       </div>
     </div>
 
@@ -94,19 +97,39 @@
         </a>
       </div>
 
-      <div id="audio-player-container">
-        <div>
-          <audio id="audio-player" controls>
-            <source src="audio.mp3" type="audio/mpeg">
-          </audio>
-        </div>
-      </div>
-
-      <div id="video-player-container" style="display: none; height: 270px">
-        <video id="video-player" controls>
-          <source src="waveform-dark.mp4" type="audio/mp4" id="video-source">
-        </video>
-      </div>
+      <script src="script.js" type="text/javascript"></script>
+      <script type="module" src="player-umd.js" onload='new BeyondWords.Player({
+        target: this,
+        playerTitle: "Financial News",
+        adverts: [{
+          type: "custom",
+          placement: "pre-roll",
+          clickThroughUrl: "https://deliveroo.com",
+          imageUrl: "deliveroo-logo.png",
+          media: [{ url: "deliveroo-advert.mp4", type: "video/mp4" }],
+          iconColor: "rgb(0, 205, 188)",
+        }],
+        content: [{
+          title: "Investors pull £1bn from UK focused funds ahead of recession",
+          imageUrl: "goldman-sachs.png",
+          adsEnabled: true,
+          media: { url: "waveform-dark.mp4", type: "video/mp4" },
+          segments: [
+            { marker: "marker-0", startTime: 0.046042, duration: 5.666 },
+            { marker: "marker-1", startTime: 5.712042, duration: 9.65 },
+            { marker: "marker-2", startTime: 15.362042, duration: 8.426 },
+            { marker: "marker-3", startTime: 23.788042, duration: 12.986 },
+            { marker: "marker-4", startTime: 36.774042, duration: 16.418 },
+            { marker: "marker-5", startTime: 53.192042, duration: 12.818 },
+            { marker: "marker-6", startTime: 66.010042, duration: 11.522 },
+            { marker: "marker-7", startTime: 77.532042, duration: 14.618 },
+            { marker: "marker-8", startTime: 92.150042, duration: 13.874 },
+            { marker: "marker-9", startTime: 106.024042, duration: 11.066 },
+            { marker: "marker-10", startTime:  117.090042, duration: 24.578 },
+            { marker: "marker-11", startTime:  141.668042, duration: 18.081 },
+          ],
+        }],
+      }); main()'></script>
 
       <p data-beyondwords-marker="marker-1">
         Investors pulled a net £1.02 billion from UK focused funds in November, making it the second worst month on record, according to a study.
@@ -153,6 +176,5 @@
       </p>
     </article>
 
-    <script src="script.js" type="text/javascript"></script>
   </body>
 </html>

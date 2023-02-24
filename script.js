@@ -1,81 +1,23 @@
 const settingsFunctions = {};
 const timeUpdateFunctions = {};
+let startTimeAfterAd;
 
 const main = async () => {
   const data = await fetch("data.json").then(r => r.json());
   const checkboxes = document.querySelectorAll("#prototype-settings > input[type='checkbox']")
+  const dropdowns = document.querySelectorAll("#prototype-settings > select")
 
-  checkboxes.forEach(c => c.checked && applySetting(c, data));
-  checkboxes.forEach(c => c.onchange = () => applySetting(c, data));
+  checkboxes.forEach(c => c.checked && applyCheckbox(c, data));
+  checkboxes.forEach(c => c.onchange = () => applyCheckbox(c, data));
 
-  const audioPlayer = document.getElementById("audio-player");
-  const videoPlayer = document.getElementById("video-player");
+  dropdowns.forEach(d => applyDropdown(d, data));
+  dropdowns.forEach(d => d.onchange = () => applyDropdown(d, data));
 
-  audioPlayer.ontimeupdate = () => applyTimeUpdate(audioPlayer, data);
-  videoPlayer.ontimeupdate = () => applyTimeUpdate(videoPlayer, data);
-
-  audioPlayer.onplay = () => {
-    setupVisualiser(audioPlayer, data);
-    applySetting(document.getElementById("WaveformVisualiser"), data)
-  };
-
-  document.getElementById("dark-mode-video").oninput = () => applySetting(document.getElementById("WaveformVideo"), data);
-  document.getElementById("dark-mode").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
-  document.getElementById("show-logo").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
-  document.getElementById("show-text").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
-  document.getElementById("number-of-bars").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
-  document.getElementById("max-bar-height").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
-  document.getElementById("relative-gap-width").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
-  document.getElementById("max-frequency").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
-  document.getElementById("time-smoothing").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
-  document.getElementById("bar-color-1").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
-  document.getElementById("bar-color-2").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
-  document.getElementById("bar-opacity").oninput = () => applySetting(document.getElementById("WaveformVisualiser"), data);
-
-  const container = document.getElementById("audio-player-container");
-  container.style.height = `${audioPlayer.getBoundingClientRect().height}px`;
-
-  addEventListener("scroll", fixAudioPlayerToBottom);
-  fixAudioPlayerToBottom();
+  const player = BeyondWords.Player.instances()[0];
+  player.mediaElement.video.ontimeupdate = () => applyTimeUpdate(player, data);
 };
 
-const fixAudioPlayerToBottom = () => {
-  const audioPlayer = document.getElementById("audio-player");
-  const { y } = audioPlayer.getBoundingClientRect();
-
-  const isMobile = window.innerWidth < 1000;
-  const isVideo = document.getElementById("WaveformVisualiser").checked;
-
-  let yLimit = isMobile ? 650 : 140;
-  if (isVideo) { yLimit += 220; }
-
-  if (window.scrollY < yLimit) {
-    audioPlayer.parentNode.classList.remove('fix-to-bottom');
-  } else {
-    audioPlayer.parentNode.classList.add('fix-to-bottom');
-  }
-};
-
-const setupVisualiser = (audioPlayer, data) => {
-  const canvas = document.getElementById("visualiser");
-  const canvasContext = canvas.getContext("2d");
-
-  const audioContext = new AudioContext();
-  if (audioContext.state === "suspended") { return; }
-
-  const source = audioContext.createMediaElementSource(audioPlayer);
-  const analyser = audioContext.createAnalyser();
-
-  analyser.fftSize = 2048;
-  source.connect(analyser);
-  analyser.connect(audioContext.destination);
-
-  const frequencies = new Uint8Array(analyser.frequencyBinCount);
-
-  data.visualiser = { canvas, canvasContext, analyser, frequencies };
-};
-
-const applySetting = (checkbox, data) => {
+const applyCheckbox = (checkbox, data) => {
   if (checkbox.checked) {
     settingsFunctions[`enable${checkbox.id}`](data);
   } else {
@@ -83,8 +25,23 @@ const applySetting = (checkbox, data) => {
   }
 };
 
-const applyTimeUpdate = (audioPlayer, data) => {
-  Object.values(timeUpdateFunctions).forEach(f => f(audioPlayer, data));
+const applyDropdown = (dropdown, data) => {
+  settingsFunctions[`select${dropdown.id}`](dropdown.value, data);
+};
+
+let timesRemaining = 0;
+
+const applyTimeUpdate = (player, data) => {
+  if (startTimeAfterAd && player.advertIndex === -1) {
+    if (timesRemaining === 0) {
+      startTimeAfterAd = null;
+    } else {
+      player.currentTime = startTimeAfterAd;
+      timesRemaining -= 1;
+    }
+  }
+
+  Object.values(timeUpdateFunctions).forEach(f => f(player, data));
 };
 
 settingsFunctions.enableButtonsBetweenParagraphs = async (data) => {
@@ -105,12 +62,17 @@ settingsFunctions.enableButtonsBetweenParagraphs = async (data) => {
 
     playButton.innerText = `${minutes}:${seconds}`;
     playButton.onclick = () => {
-      const audioPlayer = document.getElementById("audio-player");
-      const videoPlayer = document.getElementById("video-player");
-      const player = activePlayer(audioPlayer, videoPlayer);
+      const player = BeyondWords.Player.instances()[0];
+      const isAdvert = player.advertIndex !== -1;
 
-      player.currentTime = timestamp;
-      player.play();
+      if (isAdvert) {
+        startTimeAfterAd = timestamp - 0.2;
+        timesRemaining = 3;
+      } else {
+        player.currentTime = timestamp - 0.2;
+      }
+
+      player.playbackState = "playing";
     }
   });
 };
@@ -120,10 +82,10 @@ settingsFunctions.disableButtonsBetweenParagraphs = () => {
   playButtons.forEach(b => b.remove());
 };
 
-const currentMarker = (audioPlayer, data) => {
+const currentMarker = (currentTime, data) => {
   let marker;
   for (const [key, value] of Object.entries(data.paragraphTimestamps)) {
-    if (value < audioPlayer.currentTime + 0.5) {
+    if (value < currentTime + 0.5) {
       marker = key;
     }  else {
       break;
@@ -133,36 +95,12 @@ const currentMarker = (audioPlayer, data) => {
   return marker;
 };
 
-const currentVideoText = (audioPlayer, data) => {
-  let html = "";
-  let reachedWord = false;
-
-  for (let i = 0; i < data.wordTimestamps.length; i += 1) {
-    const [word, wordTime] = data.wordTimestamps[i];
-    const isNextFrame = i % 8 === 0;
-
-    if (!reachedWord && wordTime > audioPlayer.currentTime + 0.067) {
-      html += "</span>";
-      reachedWord = true;
-    }
-
-    if (isNextFrame && !reachedWord) {
-      html = "<span class='visualiser-text-highlight'>";
-    } else if (isNextFrame && reachedWord) {
-      break;
-    }
-
-    html += ` ${word}`;
-  }
-
-  return `<span>${html}</span>`;
-};
-
 settingsFunctions.enableHighlightCurrentParagraph = (data) => {
   const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
 
-  timeUpdateFunctions.highlightParagraph = (audioPlayer) => {
-    const current = currentMarker(audioPlayer, data);
+  timeUpdateFunctions.highlightParagraph = (player) => {
+    const isAdvert = player.advertIndex !== -1;
+    const current = currentMarker(isAdvert ? startTimeAfterAd : player.currentTime, data);
 
     paragraphs.forEach(paragraph => {
       const marker = paragraph.getAttribute("data-beyondwords-marker");
@@ -181,8 +119,8 @@ settingsFunctions.enableHighlightCurrentParagraph = (data) => {
     });
   }
 
-  const audioPlayer = document.getElementById("audio-player");
-  timeUpdateFunctions.highlightParagraph(audioPlayer);
+  const player = BeyondWords.Player.instances()[0];
+  timeUpdateFunctions.highlightParagraph(player);
 };
 
 settingsFunctions.disableHighlightCurrentParagraph = () => {
@@ -235,12 +173,12 @@ settingsFunctions.disableHighlightHoveredParagraph = () => {
 };
 
 settingsFunctions.enableLeftButtonWhenHovering = (data) => {
-  const audioPlayer = document.getElementById("audio-player");
+  const player = BeyondWords.Player.instances()[0];
   const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
 
   paragraphs.forEach(hoveredParagraph => {
     hoveredParagraph.onmouseover = () => {
-      const current = currentMarker(audioPlayer, data);
+      const current = currentMarker(player.currentTime, data);
 
       paragraphs.forEach(paragraph => {
         const hasButton = paragraph.querySelector('.button-left-of-paragraph');
@@ -254,7 +192,7 @@ settingsFunctions.enableLeftButtonWhenHovering = (data) => {
           playButton.style.marginTop = `${marginTop}px`;
 
           playButton.classList.add("button-left-of-paragraph");
-          if (marker === current && !audioPlayer.paused) {
+          if (marker === current && player.playbackState === "playing") {
             playButton.classList.add("pause");
           }
           paragraph.append(playButton);
@@ -262,16 +200,22 @@ settingsFunctions.enableLeftButtonWhenHovering = (data) => {
           const timestamp = data.paragraphTimestamps[marker];
 
           playButton.onclick = (event) => {
-            const current = currentMarker(audioPlayer, data);
+            const current = currentMarker(player.currentTime, data);
+            const isAdvert = player.advertIndex !== -1;
 
             if (marker !== current) {
-              audioPlayer.currentTime = timestamp;
+              if (isAdvert) {
+                startTimeAfterAd = timestamp - 0.2;
+                timesRemaining = 3;
+              } else {
+                player.currentTime = timestamp - 0.2;
+              }
             }
 
             if (playButton.classList.contains("pause")) {
-              audioPlayer.pause();
+              player.playbackState = "paused";
             } else {
-              audioPlayer.play();
+              player.playbackState = "playing";
             }
 
             event.stopPropagation();
@@ -284,14 +228,14 @@ settingsFunctions.enableLeftButtonWhenHovering = (data) => {
   });
 
   timeUpdateFunctions.leftButton = () => {
-    const current = currentMarker(audioPlayer, data);
+    const current = currentMarker(player.currentTime, data);
 
     paragraphs.forEach(paragraph => {
       const playButton = paragraph.querySelector('.button-left-of-paragraph');
       if (!playButton) { return; }
 
       const marker = paragraph.dataset.beyondwordsMarker;
-      if (marker === current && !audioPlayer.paused) {
+      if (marker === current && player.playbackState === "playing") {
         playButton.classList.add("pause");
       } else {
         playButton.classList.remove("pause");
@@ -321,21 +265,26 @@ settingsFunctions.enableClickParagraphText = (data) => {
 
   paragraphs.forEach(paragraph => {
     paragraph.onclick = () => {
-      const audioPlayer = document.getElementById("audio-player");
-      const videoPlayer = document.getElementById("video-player");
-      const player = activePlayer(audioPlayer, videoPlayer);
+      const player = BeyondWords.Player.instances()[0];
+      const isAdvert = player.advertIndex !== -1;
 
       const marker = paragraph.dataset.beyondwordsMarker;
       const timestamp = data.paragraphTimestamps[marker];
-      const current = currentMarker(player, data);
+      const current = currentMarker(player.currentTime, data);
 
-      if (marker === current && player.paused) {
-        player.play()
-      } else if (marker === current && !player.paused) {
-        player.pause()
+      if (marker === current && player.playbackState !== "playing") {
+        player.playbackState = "playing";
+      } else if (marker === current && player.playbackState === "playing") {
+        player.playbackState = "paused";
       } else {
-        player.currentTime = timestamp;
-        player.play()
+        if (isAdvert) {
+          startTimeAfterAd = timestamp - 0.2;
+          timesRemaining = 3;
+        } else {
+          player.currentTime = timestamp - 0.2;
+        }
+
+        player.playbackState = "playing";
       }
     };
 
@@ -352,186 +301,34 @@ settingsFunctions.disableClickParagraphText = () => {
   });
 };
 
-settingsFunctions.enableWaveformVisualiser = (data) => {
-  document.getElementById("WaveformVideo").checked = false;
-  settingsFunctions.disableWaveformVideo(data);
-
-  document.getElementById("waveform-settings").style.display = "block";
-  document.getElementById("visualiser-container").style.display = "block";
-
-  const audioPlayer = document.getElementById("audio-player");
-  const visualiserContainer = document.getElementById("visualiser-container");
-  const visualiserLogo = document.getElementById("visualiser-logo");
-  const visualiserText = document.getElementById("visualiser-text");
-  const darkMode = document.getElementById("dark-mode");
-  const showLogo = document.getElementById("show-logo");
-  const showText = document.getElementById("show-text");
-
-  timeUpdateFunctions.visualisationText = (audioPlayer, data) => {
-    if (darkMode.checked) {
-      visualiserContainer.classList.add("dark-mode");
-    } else {
-      visualiserContainer.classList.remove("dark-mode");
-    }
-
-    if (showLogo.checked) {
-      visualiserLogo.style.display = "block";
-    } else {
-      visualiserLogo.style.display = "none";
-    }
-
-    if (showText.checked) {
-      visualiserText.innerHTML = currentVideoText(audioPlayer, data);
-    } else {
-      visualiserText.innerHTML = "";
-    }
-  };
-
-  timeUpdateFunctions.visualisationText(audioPlayer, data);
-
-  const visualiser = data.visualiser;
-  if (!visualiser) { return; }
-
-  const { canvas, canvasContext: context, analyser, frequencies } = visualiser;
-
-  canvas.style.display = "block";
-
-  const maxBarHeightV = document.getElementById("max-bar-height").value;
-  const maxBarHeight = Math.max(0, Math.min(1, parseFloat(maxBarHeightV) || 0.25));
-
-  const gradient = context.createLinearGradient(0, canvas.height, 0, canvas.height - canvas.height * maxBarHeight);
-  gradient.addColorStop(0, document.getElementById("bar-color-1").value);
-  gradient.addColorStop(1, document.getElementById("bar-color-2").value);
-  context.fillStyle = gradient;
-
-  context.globalAlpha = parseFloat(document.getElementById("bar-opacity").value) || 0.6;
-
-  const timeSmoothingV = document.getElementById("time-smoothing").value;
-  const timeSmoothing = Math.max(0, Math.min(1, parseFloat(timeSmoothingV) || 0.9));
-  analyser.smoothingTimeConstant = timeSmoothing;
-
-  const maxFrequencyV = document.getElementById("max-frequency").value;
-  const maxFrequency = Math.max(0, Math.min(20, parseFloat(maxFrequencyV) || 8));
-  const maxIndex = Math.round(frequencies.length * (maxFrequency / 20));
-
-  const numberOfBarsV = document.getElementById("number-of-bars").value;
-  const numberOfBars = Math.max(1, Math.min(500, parseInt(numberOfBarsV) || 70));
-
-  const numberOfGaps = numberOfBars - 1;
-
-  const relativeGapWidthV = document.getElementById("relative-gap-width").value;
-  const relativeGapWidth = Math.max(0, Math.min(100, parseFloat(relativeGapWidthV) || 0.3));
-
-  const barsAndGapsWidth = numberOfBars + numberOfGaps * relativeGapWidth;
-
-  const widthScale = canvas.width / barsAndGapsWidth;
-  const indexScale = maxIndex / numberOfBars;
-
-  const barWidth = widthScale;
-  const gapWidth = widthScale * relativeGapWidth;
-
-  const render = () => {
-    if (canvas.style.display === "none") { return; }
-
-    analyser.getByteFrequencyData(frequencies);
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (let bar = 0; bar < numberOfBars; bar += 1) {
-      const indexFrom = Math.round(bar * indexScale);
-      const indexTo = Math.round(indexFrom + indexScale);
-
-      let sum = 0;
-      for (let i = indexFrom; i < indexTo; i += 1) { sum += frequencies[i]; }
-      const frequency = sum / indexScale;
-
-      const barHeight = frequency / 255 * canvas.height * maxBarHeight;
-      const barLeft = bar * (barWidth + gapWidth);
-
-      context.fillRect(barLeft, canvas.height - barHeight, barWidth, barHeight);
-    }
-
-    requestAnimationFrame(render);
-  };
-
-
-  render();
+settingsFunctions.selectPlayerStyle = (playerStyle) => {
+  BeyondWords.Player.instances()[0].playerStyle = playerStyle;
 };
 
-settingsFunctions.disableWaveformVisualiser = ({ visualiser }) => {
-  document.getElementById("waveform-settings").style.display = "none";
-  document.getElementById("visualiser-container").style.display = "none";
-
-  if (visualiser) {
-    visualiser.canvas.style.display = "none";
-  }
-
-  delete timeUpdateFunctions.visualisationText;
+settingsFunctions.selectWidgetStyle = (widgetStyle) => {
+  BeyondWords.Player.instances()[0].widgetStyle = widgetStyle;
 };
 
-settingsFunctions.enableWaveformVideo = (data) => {
-  document.getElementById("WaveformVisualiser").checked = false;
-  settingsFunctions.disableWaveformVisualiser(data);
+settingsFunctions.selectWidgetPosition = (widgetPosition) => {
+  BeyondWords.Player.instances()[0].widgetPosition = widgetPosition;
+};
 
-  document.getElementById("video-player-container").style.display = "block";
-  document.getElementById("video-settings").style.display = "block";
-  document.getElementById("audio-player-container").style.display = "none";
+settingsFunctions.selectWidgetWidth = (widgetWidth) => {
+  BeyondWords.Player.instances()[0].widgetWidth = widgetWidth;
+};
 
-  const videoPlayer = document.getElementById("video-player");
-  const audioPlayer = document.getElementById("audio-player");
+settingsFunctions.selectSkipButtonStyle = (skipButtonStyle) => {
+  BeyondWords.Player.instances()[0].skipButtonStyle = skipButtonStyle;
+};
 
-  const darkMode = document.getElementById("dark-mode-video");
-  const videoSource = document.getElementById("video-source");
-
-  const isPlaying = !audioPlayer.paused || !videoPlayer.paused;
-  const currentTime = audioPlayer.currentTime || videoPlayer.currentTime;
-
-  if (darkMode.checked) {
-    videoSource.setAttribute("src", "waveform-dark.mp4");
-    videoPlayer.load();
+settingsFunctions.selectColorTheme = (colorTheme) => {
+  if (colorTheme === "light") {
+    BeyondWords.Player.instances()[0].textColor = "#111";
+    BeyondWords.Player.instances()[0].backgroundColor = "#F5F5F5";
+    BeyondWords.Player.instances()[0].iconColor = "rgba(0, 0, 0, 0.8)";
   } else {
-    videoSource.setAttribute("src", "waveform-light.mp4");
-    videoPlayer.load();
-  }
-
-  videoPlayer.currentTime = currentTime;
-
-  if (isPlaying) {
-    videoPlayer.play();
-  } else {
-    videoPlayer.pause();
-  }
-
-  audioPlayer.pause();
-  audioPlayer.currentTime = 0;
-};
-
-settingsFunctions.disableWaveformVideo = (data) => {
-  if (document.getElementById("video-player-container").style.display === "none") { return; }
-
-  document.getElementById("video-player-container").style.display = "none";
-  document.getElementById("video-settings").style.display = "none";
-  document.getElementById("audio-player-container").style.display = "block";
-
-  const videoPlayer = document.getElementById("video-player");
-  const audioPlayer = document.getElementById("audio-player");
-
-  audioPlayer.currentTime = videoPlayer.currentTime;
-
-  if (videoPlayer.paused) {
-    audioPlayer.pause();
-  } else {
-    audioPlayer.play();
-  }
-
-  videoPlayer.pause();
-};
-
-const activePlayer = (audioPlayer, videoPlayer) => {
-  if (document.getElementById("video-player-container").style.display === "none") {
-    return audioPlayer;
-  } else {
-    return videoPlayer;
+    BeyondWords.Player.instances()[0].textColor = "#eee";
+    BeyondWords.Player.instances()[0].backgroundColor = "#333";
+    BeyondWords.Player.instances()[0].iconColor = "#bbb";
   }
 };
-
-main();
