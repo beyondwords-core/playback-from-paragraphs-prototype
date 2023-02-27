@@ -28,32 +28,24 @@ audio {
 }
 
 .button-left-of-paragraph {
-  background: none;
-  border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
   background: #323232;
+  background: url(play.svg);
+  background-size: contain;
+  width: 2.5rem;
+  height: 2.5rem;
   cursor: pointer;
   border: none;
   position: absolute;
   top: 0;
-  left: -3rem;
+  left: -3.5rem;
 }
 
-.button-left-of-paragraph:before {
-  content: "▶";
-  color: white;
-  margin-left: 0.12rem;
-}
-
-.button-left-of-paragraph.pause:before {
-  content: "| |";
-  font-weight: bold;
-  margin-left: 0;
+.button-left-of-paragraph.pause {
+  background: url(pause.svg);
 }
 
 .button-left-of-paragraph:hover {
-  background: red;
+  opacity: 0.8;
 }
 
 #prototype-settings {
