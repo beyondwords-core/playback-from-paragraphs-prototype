@@ -27,14 +27,6 @@
       <script type="module" src="player-umd.js" onload='new BeyondWords.Player({
         target: this,
         playerTitle: "Financial News",
-        adverts: [{
-          type: "custom",
-          placement: "pre-roll",
-          clickThroughUrl: "https://deliveroo.com",
-          imageUrl: "deliveroo-logo.png",
-          media: [{ url: "deliveroo-advert.mp4", type: "video/mp4" }],
-          iconColor: "rgb(0, 205, 188)",
-        }],
         content: [{
           title: "Investors pull £1bn from UK focused funds ahead of recession",
           imageUrl: "goldman-sachs.png",
@@ -119,6 +111,10 @@
 
       <input type="checkbox" id="HighlightHoveredParagraph" checked="checked">
         Highlight hovered paragraph
+      </input><br/>
+
+      <input type="checkbox" id="PlayAdvertBefore">
+        Play "pre-roll" advert
       </input><br/>
 
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Player style:

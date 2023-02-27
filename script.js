@@ -260,6 +260,26 @@ settingsFunctions.disableClickParagraphText = () => {
   });
 };
 
+settingsFunctions.enablePlayAdvertBefore = (data) => {
+  BeyondWords.Player.instances()[0].adverts = [
+    {
+      type: "custom",
+      placement: "pre-roll",
+      clickThroughUrl: "https://deliveroo.com",
+      imageUrl: "deliveroo-logo.png",
+      media: [{ url: "deliveroo-advert.mp4", type: "video/mp4" }],
+      iconColor: "rgb(0, 205, 188)",
+    }
+  ];
+
+  BeyondWords.Player.instances()[0].advertIndex = 0;
+};
+
+settingsFunctions.disablePlayAdvertBefore = (data) => {
+  BeyondWords.Player.instances()[0].adverts = [];
+  BeyondWords.Player.instances()[0].advertIndex = -1;
+};
+
 settingsFunctions.selectPlayerStyle = (playerStyle) => {
   BeyondWords.Player.instances()[0].playerStyle = playerStyle;
 };
