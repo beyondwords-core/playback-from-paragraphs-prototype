@@ -29,16 +29,13 @@ const applyDropdown = (dropdown, data) => {
   settingsFunctions[`select${dropdown.id}`](dropdown.value, data);
 };
 
-let timesRemaining = 0;
-
 const applyTimeUpdate = (player, data) => {
   if (startTimeAfterAd && player.advertIndex === -1) {
-    if (timesRemaining === 0) {
-      startTimeAfterAd = null;
-    } else {
-      player.currentTime = startTimeAfterAd;
-      timesRemaining -= 1;
-    }
+    player.playbackState = "paused";
+    player.currentTime = startTimeAfterAd;
+    player.playbackState = "playing";
+
+    startTimeAfterAd = null;
   }
 
   Object.values(timeUpdateFunctions).forEach(f => f(player, data));
