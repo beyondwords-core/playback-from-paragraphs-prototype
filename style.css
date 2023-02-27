@@ -89,7 +89,7 @@ audio {
 
 #visualiser-container {
   position: relative;
-  background: #efefef;
+  background: rgb(245, 245, 245);
   display: none;
 }
 
@@ -165,7 +165,7 @@ input {
 }
 
 .beyondwords-current {
-  background: rgba(254, 191, 0, 0.25);
+  background: rgb(245, 245, 245);
 }
 
 .click-to-play:hover {
@@ -173,11 +173,11 @@ input {
 }
 
 h1:hover .hover-marker {
-  background: rgba(252, 219, 220, 1);
+  background: rgb(245, 245, 245);
 }
 
 p:hover .hover-marker {
-  background: rgba(252, 219, 220, 1);
+  background: rgb(245, 245, 245);
 }
 
 .fix-to-bottom {
