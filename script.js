@@ -3,6 +3,10 @@ const timeUpdateFunctions = {};
 let startTimeAfterAd;
 
 const main = async () => {
+  if ((window.location.search || "").includes("advert=true")) {
+    document.getElementById("PlayAdvertBefore").checked = "checked";
+  }
+
   const data = await fetch("data.json").then(r => r.json());
   const checkboxes = document.querySelectorAll("#prototype-settings > input[type='checkbox']")
   const dropdowns = document.querySelectorAll("#prototype-settings > select")
