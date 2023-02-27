@@ -27,28 +27,6 @@ audio {
   width: 30rem;
 }
 
-.button-between-paragraphs {
-  display: block;
-  margin-top: 2rem;
-  cursor: pointer;
-  background: rgb(246, 246, 246);
-  border: none;
-  border-radius: 99999px;
-  width: 4.92rem;
-  height: 2.22rem;
-}
-
-.button-between-paragraphs:before {
-  content: "▷";
-  color: red;
-  padding-right: 0.5rem;
-}
-
-.button-between-paragraphs:hover:before {
-  content: "▶";
-  padding-right: 0.6rem;
-}
-
 .button-left-of-paragraph {
   background: none;
   border-radius: 50%;

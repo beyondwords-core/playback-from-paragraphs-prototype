@@ -41,44 +41,6 @@ const applyTimeUpdate = (player, data) => {
   Object.values(timeUpdateFunctions).forEach(f => f(player, data));
 };
 
-settingsFunctions.enableButtonsBetweenParagraphs = async (data) => {
-  const paragraphs = document.querySelectorAll("[data-beyondwords-marker]");
-
-  paragraphs.forEach((paragraph, i) => {
-    if (i === 0) { return; }
-
-    const marker = paragraph.dataset.beyondwordsMarker;
-    const timestamp = data.paragraphTimestamps[marker];
-
-    const playButton = document.createElement("button");
-    playButton.classList.add("button-between-paragraphs");
-    paragraph.parentNode.insertBefore(playButton, paragraph);
-
-    const minutes = String(Math.floor(timestamp / 60)).padStart(2, "0");
-    const seconds = String(Math.floor(timestamp % 60)).padStart(2, "0");
-
-    playButton.innerText = `${minutes}:${seconds}`;
-    playButton.onclick = () => {
-      const player = BeyondWords.Player.instances()[0];
-      const isAdvert = player.advertIndex !== -1;
-
-      if (isAdvert) {
-        startTimeAfterAd = timestamp - 0.2;
-        timesRemaining = 3;
-      } else {
-        player.currentTime = timestamp - 0.2;
-      }
-
-      player.playbackState = "playing";
-    }
-  });
-};
-
-settingsFunctions.disableButtonsBetweenParagraphs = () => {
-  const playButtons = document.querySelectorAll(".button-between-paragraphs");
-  playButtons.forEach(b => b.remove());
-};
-
 const currentMarker = (currentTime, data) => {
   let marker;
   for (const [key, value] of Object.entries(data.paragraphTimestamps)) {
