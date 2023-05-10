@@ -19,160 +19,19 @@ p {
   position: relative;
 }
 
-mark {
-  background: none;
-}
-
-audio {
-  width: 30rem;
-}
-
-.button-left-of-paragraph {
-  background: #323232;
-  background: url(play.svg);
-  background-size: contain;
-  width: 2.5rem;
-  height: 2.5rem;
-  cursor: pointer;
-  border: none;
-  position: absolute;
-  top: 0;
-  left: -3.5rem;
-}
-
-.button-left-of-paragraph.pause {
-  background: url(pause.svg);
-}
-
-.button-left-of-paragraph:hover {
-  opacity: 0.8;
-}
-
-#prototype-settings {
-  position: absolute;
+.control-panel {
+  position: fixed;
   top: 0;
   right: 0;
-  border-left: 1px dashed gray;
-  border-bottom: 1px dashed gray;
   padding: 1rem;
-}
-
-#visualiser-container {
-  position: relative;
-  background: rgb(245, 245, 245);
-  display: none;
-}
-
-#visualiser-container.dark-mode {
-  background: #1e1e1e;
-}
-
-#visualiser-logo {
-  position: absolute;
-  top: 0.7rem;
-  right: 0.7rem;
-  text-decoration: none;
-}
-
-#visualiser-logo img {
-  width: 1rem;
-}
-
-#visualiser-text {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0 3rem;
-  color: #323232;
-
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 27px;
-  line-height: 1.2;
-}
-
-.dark-mode #visualiser-text {
-  color: white;
-}
-
-.visualiser-text-highlight {
-  color: transparent;
-  background-image: linear-gradient(to right, #943bfc, #fc3a41);
-  -webkit-background-clip: text;
-  -webkit-box-decoration-break: clone;
-}
-
-canvas {
-  display: block;
-}
-
-#video-player-container {
-  display: none;
-}
-
-#video-player-container video {
-  width: 30rem;
+  width: 250px;
+  height: calc(100% - 120px);
+  overflow-y: scroll;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
 }
 
 @media only screen and (max-width: 1000px) {
-  #prototype-settings {
-    position: static;
-    border: none;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-    padding: 0;
-    padding-bottom: 1rem;
-    margin: 10rem 0;
+  .control-panel {
+    display: none;
   }
-}
-
-input {
-  cursor: pointer;
-  margin-bottom: 1rem;
-}
-
-.beyondwords-current {
-  background: rgb(245, 245, 245);
-}
-
-.click-to-play:hover {
-  cursor: pointer;
-}
-
-h1:hover .hover-marker {
-  background: rgb(245, 245, 245);
-}
-
-p:hover .hover-marker {
-  background: rgb(245, 245, 245);
-}
-
-.fix-to-bottom {
-  position: fixed;
-  bottom: 0;
-  padding-bottom: 0.5rem;
-  left: 0;
-  width: 100%;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  background: linear-gradient(rgba(0, 0, 0, 0), white);
-}
-
-.fix-to-bottom audio {
-  filter: drop-shadow(0 0 0.2rem rgba(0, 0, 0, 0.5));
-}
-
-.media-element {
-  background: none !important;
-}
-
-video {
-  object-fit: cover !important;
 }
