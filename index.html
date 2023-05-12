@@ -15,19 +15,9 @@
         Investors pull £1bn from UK focused funds ahead of recession
       </h1>
 
-      <script src="https://proxy.beyondwords.io/npm/@beyondwords/player@0.0.0-beta16/dist/umd.js" onload='new BeyondWords.Player({
-        target: this,
-        playerTitle: "Financial News",
-        controlPanel: ".control-panel",
-        callToAction: "Listen to this article",
-        playlistStyle: "auto",
-        textColor: "#323232",
-        backgroundColor: "#F5F5F5",
-        iconColor: "#323232",
-        highlightColor: "#EEE",
-        segmentWidgetSections: "none",
-        content: [{
-          title: "Investors pull £1bn from UK focused funds ahead of recession",
+      <script src="https://proxy.beyondwords.io/npm/@beyondwords/player@0.0.0-beta16/dist/umd.js" onload='
+        const contentItem = (i) => ({
+          title: i == 0 ? "Investors pull £1bn from UK focused funds ahead of recession" : `Example playlist item ${i + 1}`,
           imageUrl: "goldman-sachs.png",
           adsEnabled: false,
           media: { url: "waveform-dark.mp4", type: "video/mp4" },
@@ -45,18 +35,33 @@
             { marker: "marker-10", section: "body", startTime:  117.090042, duration: 24.578 },
             { marker: "marker-11", section: "body", startTime:  141.668042, duration: 18.081 },
           ],
-        }],
-        adverts: [
-          {
-            type: "custom",
-            placement: "pre-roll",
-            clickThroughUrl: "https://deliveroo.com",
-            imageUrl: "deliveroo-logo.png",
-            media: [{ url: "deliveroo-advert.mp4", type: "video/mp4" }],
-            iconColor: "rgb(0, 205, 188)",
-          }
-        ],
-      })'></script>
+        });
+
+        new BeyondWords.Player({
+          target: this,
+          playerTitle: "Financial News",
+          controlPanel: ".control-panel",
+          callToAction: "Listen to this article",
+          playlistStyle: "auto",
+          textColor: "#323232",
+          backgroundColor: "#F5F5F5",
+          iconColor: "#323232",
+          highlightColor: "#EEE",
+          segmentWidgetSections: "none",
+          content: [contentItem(0), contentItem(1), contentItem(2), contentItem(3), contentItem(4)],
+          playlistStyle: "hide",
+          adverts: [
+            {
+              type: "custom",
+              placement: "pre-roll",
+              clickThroughUrl: "https://deliveroo.com",
+              imageUrl: "deliveroo-logo.png",
+              media: [{ url: "deliveroo-advert.mp4", type: "video/mp4" }],
+              iconColor: "rgb(0, 205, 188)",
+            }
+          ],
+        })
+      '></script>
 
       <p data-beyondwords-marker="marker-1">
         Investors pulled a net £1.02 billion from UK focused funds in November, making it the second worst month on record, according to a study.
