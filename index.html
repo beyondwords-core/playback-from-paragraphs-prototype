@@ -15,7 +15,7 @@
         Investors pull £1bn from UK focused funds ahead of recession
       </h1>
 
-      <script src="https://proxy.beyondwords.io/npm/@beyondwords/player@0.0.0-beta16/dist/umd.js" onload='
+      <script src="https://proxy.beyondwords.io/npm/@beyondwords/player@0.0.0-beta17/dist/umd.js" onload='
         const contentItem = (i) => ({
           title: i == 0 ? "Investors pull £1bn from UK focused funds ahead of recession" : `Example playlist item ${i + 1}`,
           imageUrl: "goldman-sachs.png",
@@ -42,7 +42,6 @@
           playerTitle: "Financial News",
           controlPanel: ".control-panel",
           callToAction: "Listen to this article",
-          playlistStyle: "auto",
           textColor: "#323232",
           backgroundColor: "#F5F5F5",
           iconColor: "#323232",
@@ -50,6 +49,7 @@
           segmentWidgetSections: "none",
           content: [contentItem(0), contentItem(1), contentItem(2), contentItem(3), contentItem(4)],
           playlistStyle: "hide",
+          playlistToggle: "hide",
           adverts: [
             {
               type: "custom",
