@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fox News Demo</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <article>
+      <div class="control-panel"></div>
+
+      <h1>
+        Coast Guard intercepts $186M in cocaine across Atlantic, Caribbean
+      </h1>
+
+      <script src="https://proxy.beyondwords.io/npm/@beyondwords/player@0.0.0-beta21/dist/umd.js" onload='
+        const contentItem = (i) => ({
+          title: i == 0 ? "Coast Guard intercepts $186M in cocaine across Atlantic, Caribbean" : `Example playlist item ${i + 1}`,
+          adsEnabled: false,
+          media: { url: "output.mp4", type: "video/mp4" },
+          segments: [
+              { marker: "marker-0", section: "body",  startTime: 0.143 },
+              { marker: "marker-1", section: "body",  startTime: 14.470 },
+              { marker: "marker-2", section: "body",  startTime: 27.862 },
+              { marker: "marker-3", section: "body",  startTime: 38.422 },
+              { marker: "marker-4", section: "body",  startTime: 45.453 },
+              { marker: "marker-5", section: "body",  startTime: 78.333 },
+              { marker: "marker-6", section: "body",  startTime: 86.324 },
+              { marker: "marker-7", section: "body",  startTime: 105.116 },
+          ],
+        });
+
+        new BeyondWords.Player({
+          target: this,
+          playerTitle: "Fox News",
+          controlPanel: ".control-panel",
+          callToAction: "Listen to this article",
+          textColor: "#323232",
+          backgroundColor: "#F5F5F5",
+          iconColor: "#323232",
+          highlightColor: "#EEE",
+          segmentWidgetSections: "none",
+          content: [contentItem(0), contentItem(1), contentItem(2), contentItem(3), contentItem(4)],
+          logoIconEnabled: false,
+          playlistStyle: "hide",
+          playlistToggle: "hide",
+          playerStyle: "video",
+          widgetStyle: "video",
+          adverts: [
+            {
+              type: "custom",
+              placement: "pre-roll",
+              clickThroughUrl: "https://deliveroo.com",
+              imageUrl: "deliveroo-logo.png",
+              media: [{ url: "../deliveroo-advert.mp4", type: "video/mp4" }],
+              iconColor: "rgb(0, 205, 188)",
+            }
+          ],
+        })
+      '></script>
+
+      <p></p>
+
+      <!--<img src="https://a57.foxnews.com/static.foxnews.com/foxnews.com/content/uploads/2023/06/720/405/USCG-cocaine-seized.jpg?ve=1&tl=1" />-->
+
+      <p data-beyondwords-marker="marker-0">
+        The U.S. Coast Guard (USCG) intercepted more than 14,000 pounds of cocaine worth over $186 million in multiple seizures across international waters, the agency said Saturday.
+      </p>
+
+      <p data-beyondwords-marker="marker-1">
+        Coast Guard crews offloaded the illegal narcotics in Miami on Friday following nine separate seizures in the Atlantic Ocean and Caribbean Sea, the Coast Guard said in a news release.
+      </p>
+
+      <p data-beyondwords-marker="marker-2">
+        Multiple USCG crews and a U.S. Customs and Border Protection, Air and Marine Operations aircrew intercepted the suspected smugglers.
+      </p>
+
+      <img src="https://a57.foxnews.com/static.foxnews.com/foxnews.com/content/uploads/2023/06/720/405/USCG-cocaine-seized-2.jpg?ve=1&tl=1" />
+
+      <p data-beyondwords-marker="marker-3">
+        Officials said 12 suspected smugglers were also taken into custody and face federal prosecution.
+      </p>
+
+      <p data-beyondwords-marker="marker-4">
+        "The contraband offloaded today represents the professional expertise and dedication of U.S. defense and law enforcement agencies working together to combat the flow of illicit drugs through the Caribbean Region into the United States," said Lt. Peter Hutchison, duty enforcement officer at Coast Guard District Seven, said in the release. "This teamwork is imperative to the identification, interception, and seizure of vessels engaged in illicit trafficking and a testament to the hard work of these crews."
+      </p>
+
+      <img src="https://a57.foxnews.com/static.foxnews.com/foxnews.com/content/uploads/2023/06/720/405/USCG-cocaine-seized-3.jpg?ve=1&tl=1" />
+
+      <p data-beyondwords-marker="marker-5">
+        No details about the suspects, where the drugs had come from, or where they were going were immediately provided.
+      </p>
+
+      <p data-beyondwords-marker="marker-6">
+        Production and demand of cocaine has spiked around the world over the past two years, according to a March report released by the United Nations Office on Drugs and Crime. The report found the surge in supply followed an initial slowdown caused by the COVID-19 pandemic.
+      </p>
+
+      <p data-beyondwords-marker="marker-7">
+        Globally, law enforcement interceptions of cocaine shipments also saw a sharp jump, hitting a record of nearly 2,000 tons in 2021.
+      </p>
+    </article>
+
+    <style>
+      article {
+        max-width: 32rem;
+      }
+
+      img {
+        max-width: 32rem;
+      }
+
+      .bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp .video .hoverable .content-title {
+        display: none !important;
+      }
+
+      .bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp .close-widget-button {
+        display: none !important;
+      }
+
+      @media only screen and (max-width: 1200px) {
+        .control-panel {
+          display: none;
+        }
+      }
+    </style>
+  </body>
+</html>
