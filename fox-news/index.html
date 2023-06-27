@@ -15,7 +15,7 @@
         Coast Guard intercepts $186M in cocaine across Atlantic, Caribbean
       </h1>
 
-      <script src="https://proxy.beyondwords.io/npm/@beyondwords/player@0.0.0-beta31/dist/umd.js" onload='
+      <script src="https://proxy.beyondwords.io/npm/@beyondwords/player@latest/dist/umd.js" onload='
         const contentItem = (i) => ({
           title: i == 0 ? "Coast Guard intercepts $186M in cocaine across Atlantic, Caribbean" : `Example playlist item ${i + 1}`,
           adsEnabled: false,
@@ -35,6 +35,8 @@
         new BeyondWords.Player({
           target: this,
           playerTitle: "Fox News",
+          playerStyle: "video",
+          widgetStyle: "video",
           controlPanel: ".control-panel",
           callToAction: "Listen to this article",
           textColor: "#323232",
@@ -46,8 +48,6 @@
           logoIconEnabled: false,
           playlistStyle: "hide",
           playlistToggle: "hide",
-          playerStyle: "video",
-          widgetStyle: "video",
           adverts: [
             {
               type: "custom",

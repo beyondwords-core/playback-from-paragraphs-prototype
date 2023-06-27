@@ -15,7 +15,7 @@
         Red Bull BMX rider Kriss Kyle performs tricks on floating skatepark 2,000ft in the air
       </h1>
 
-      <script src="https://proxy.beyondwords.io/npm/@beyondwords/player@0.0.0-beta31/dist/umd.js" onload='
+      <script src="https://proxy.beyondwords.io/npm/@beyondwords/player@latest/dist/umd.js" onload='
         const contentItem = (i) => ({
           title: i == 0 ? "Red Bull BMX rider Kriss Kyle performs tricks on floating skatepark 2,000ft in the air" : `Example playlist item ${i + 1}`,
           adsEnabled: false,
@@ -45,6 +45,8 @@
         new BeyondWords.Player({
           target: this,
           playerTitle: "Sky News",
+          playerStyle: "video",
+          widgetStyle: "video",
           controlPanel: ".control-panel",
           callToAction: "Listen to this article",
           textColor: "#323232",
