@@ -19,7 +19,7 @@
         const contentItem = (i) => ({
           title: i == 0 ? "Red Bull BMX rider Kriss Kyle performs tricks on floating skatepark 2,000ft in the air" : `Example playlist item ${i + 1}`,
           adsEnabled: false,
-          media: { url: "output.mp4", type: "video/mp4" },
+          media: { url: "output.mp4", contentType: "video/mp4" },
           segments: [
               { marker: "marker-1", section: "body",  startTime: 0 },
               { marker: "marker-2", section: "body",  startTime: 9.563 },
@@ -81,7 +81,7 @@
               placement: "pre-roll",
               clickThroughUrl: "https://deliveroo.com",
               imageUrl: "deliveroo-logo.png",
-              media: [{ url: "../deliveroo-advert.mp4", type: "video/mp4" }],
+              media: [{ url: "../deliveroo-advert.mp4", contentType: "video/mp4" }],
               iconColor: "rgb(0, 205, 188)",
             }
           ],
