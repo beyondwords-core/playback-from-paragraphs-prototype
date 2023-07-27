@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reuters Demo</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <article>
+      <div class="control-panel"></div>
+
+      <h1 data-beyondwords-marker="TODO">
+        Rise in solar provides a ray of hope for Dutch green goals
+      </h1>
+
+      <script src="https://proxy.beyondwords.io/npm/@beyondwords/player@0.0.0-beta39/dist/umd.js" onload='
+        const contentItem = (i) => ({
+          title: i == 0 ? "Rise in solar provides a ray of hope for Dutch green goals" : `Example playlist item ${i + 1}`,
+          adsEnabled: false,
+          video: [{ url: "landscape.mp4", contentType: "video/mp4" }],
+          segments: [
+              { marker: "marker-0", section: "title", startTime: 0 },
+              { marker: "marker-1", section: "body",  startTime: 12.345 },
+          ],
+        });
+
+        new BeyondWords.Player({
+          target: this,
+          playerTitle: "Reuters Demo",
+          playerStyle: "video",
+          widgetStyle: "video",
+          controlPanel: ".control-panel",
+          callToAction: "Listen to this article",
+          textColor: "#323232",
+          backgroundColor: "#F5F5F5",
+          iconColor: "#323232",
+          highlightColor: "#EEE",
+          segmentWidgetSections: "none",
+          content: [contentItem(0), contentItem(1), contentItem(2), contentItem(3), contentItem(4)],
+          logoIconEnabled: false,
+          playlistStyle: "hide",
+          playlistToggle: "hide",
+          adverts: [
+            {
+              type: "custom",
+              placement: "pre-roll",
+              clickThroughUrl: "https://deliveroo.com",
+              imageUrl: "deliveroo-logo.png",
+              video: [{ url: "../deliveroo-advert.mp4", contentType: "video/mp4" }],
+              iconColor: "rgb(0, 205, 188)",
+            }
+          ],
+        })
+      '></script>
+
+      <p data-beyondwords-marker="marker-1">
+        AMSTERDAM, June 29 (Reuters) - A pandemic push and a subsidy surge have transformed the Netherlands from renewable energy laggard to Europe's leading per capita user of solar panels, putting it on course to meet green goals after years of struggling.
+      </p>
+
+      <p data-beyondwords-marker="marker-2">
+        While it faces growing infrastructure challenges to maintain the momentum, in May more than half of Dutch electricity and 20% of national energy was supplied by renewable sources. Both were firsts.
+      </p>
+
+      <img src="https://www.reuters.com/graphics/NETHERLANDS-RENEWABLES/mypmozlkapr/chart.png" />
+
+      <p data-beyondwords-marker="marker-3">
+        Compare that with 7.4% in 2018, when the country was the worst performer in Europe behind Malta, Eurostat figures show.
+      </p>
+
+      <p data-beyondwords-marker="marker-4">
+        It missed 2020 goals but is on track to hit renewable and emission targets for 2030.
+      </p>
+
+      <img src="https://www.reuters.com/graphics/NETHERLANDS-RENEWABLES/zgvoboxkdpd/chart.png" />
+
+      <p data-beyondwords-marker="marker-5">
+        One reason is a government-led build out of wind turbine farms in the North Sea, the kind of large-scale engineering the Dutch are famed for. The bigger surprise was a tripling of solar energy during the COVID-19 pandemic, much of it on rooftops and farms.
+      </p>
+
+      <img src="https://www.reuters.com/resizer/MEnO9CH6jMdJt2zORZPnBHs2VEo=/960x0/filters:quality(80)/cloudfront-us-east-2.images.arcpublishing.com/reuters/WW47OSV52VKIHDSHM52A47SWEA.jpg" />
+
+      <p data-beyondwords-marker="marker-6">
+        "I think a lot of people are surprised by the fact that this country, famous for paintings of clouds, is actually now a solar leader," Energy Minister Rob Jetten told Reuters in an interview, underlining that the country has challenges ahead.
+      </p>
+
+      <p data-beyondwords-marker="marker-7">
+        Subsidies include a generous "net metering" system, which means users can deduct what they feed into the grid from their electricity usage.
+      </p>
+
+      <img src="https://www.reuters.com/resizer/dV2iUchPBLe8Tp2PGmuwwbYCkus=/960x0/filters:quality(80)/cloudfront-us-east-2.images.arcpublishing.com/reuters/LPN6EZPRDZMORFI5IGSIKHZHNU.jpg" />
+
+      <p data-beyondwords-marker="marker-8">
+        Home-owner Linda Balk installed eight solar panels in 2021 on her roof in the southern Dutch town of Sint-Oedenrode and said the money she has saved on her energy bill has made a "huge difference" - especially when prices spiked following Russia's 2022 invasion of Ukraine.
+      </p>
+
+      <img src="https://www.reuters.com/graphics/NETHERLANDS-RENEWABLES/znpnbwaxqpl/chart.png" />
+
+      <p data-beyondwords-marker="marker-9">
+        But a major issue is adapting electrical grids. Grid company TenneT has said it will spend 100 <a href="https://www.reuters.com/markets/deals/tennet-sale-talks-slow-germany-netherlands-differ-price-offshore-2023-05-04/" target="_blank">billion euros</a> on infrastructure in the coming decade, but more international interconnections are needed and project connections face unpredictable waits.
+      </p>
+
+      <img src="https://www.reuters.com/resizer/JfY6ec5EkwEiF2BTPKJAE9Ru3S4=/960x0/filters:quality(80)/cloudfront-us-east-2.images.arcpublishing.com/reuters/RDZHEVH77ZPW7FHK3DIIQUNX4Y.jpg" />
+
+      <p data-beyondwords-marker="marker-10">
+        The Netherlands still trails China, the U.S., Germany and Spain in overall solar generation, but it entered the global top 10 in 2022, according to industry body SolarPower Europe, adding 4.1GW for a total of 18GW capacity.
+      </p>
+
+      <p data-beyondwords-marker="marker-11">
+        That makes the Dutch first in Europe and number two globally, behind Australia in solar capacity per person, as better, cheaper panels are driving the adoption of solar energy worldwide.
+      </p>
+
+      <img src="https://www.reuters.com/graphics/NETHERLANDS-RENEWABLES/gdpzqxldavw/chart.png" />
+
+      <p data-beyondwords-marker="marker-12">
+        Martien Visser, a lecturer at Hanze University of Applied Sciences who collects and publishes data on the Dutch energy transition, said the subsidies behind the boom will become less generous.
+      </p>
+
+      <p data-beyondwords-marker="marker-13">
+        The net metering system will be gradually replaced by compensation based on spot prices - which are falling, sometimes to zero, during sunny hours, leading to some solar capacity being shut in.
+      </p>
+
+      <img src="https://www.reuters.com/resizer/H-oUNATS6LlAuWSthOkZ6F4RHK4=/960x0/filters:quality(80)/cloudfront-us-east-2.images.arcpublishing.com/reuters/2ZE6VUQPIZIORNYAPAU3I27HZY.jpg" />
+
+      <p data-beyondwords-marker="marker-14">
+        Another pillar of Dutch renewable success has been North Sea wind, with 3.2 GW total in 2022 - and around 2GW being added annually for the coming decade. A 750MW farm came online last week.
+      </p>
+
+      <p data-beyondwords-marker="marker-15">
+        SolarPower Europe forecasts the Netherlands will also install around 4GW of solar annually through 2028.
+      </p>
+
+      <p data-beyondwords-marker="marker-16">
+        With one gigawatt enough to supply roughly a million households with electricity, the country may have a surplus of green electricity - but most infrastructure relies on natural gas and oil for heating, transport and industrial needs.
+      </p>
+
+      <p data-beyondwords-marker="marker-17">
+        Apart from grid improvements, batteries, hydrogen and other ways to store electricity are urgently needed.
+      </p>
+
+      <p data-beyondwords-marker="marker-18">
+        "Although there are a lot of projects on the drawing board, so far, hardly anything has been built," Visser said.
+      </p>
+
+      <p data-beyondwords-marker="marker-19">
+        Reporting by Toby Sterling; editing by Barbara Lewis
+      </p>
+    </article>
+
+    <style>
+      article {
+        max-width: 32rem;
+      }
+
+      img {
+        max-width: 32rem;
+      }
+
+      .bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp .video .hoverable .content-title {
+        display: none !important;
+      }
+
+      .bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp.bwp .close-widget-button {
+        display: none !important;
+      }
+
+      @media only screen and (max-width: 1200px) {
+        .control-panel {
+          display: none;
+        }
+      }
+    </style>
+  </body>
+</html>
